@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaillard Maxence | Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dark-theme">
+    <!-- Loader -->
+    <div class="loader">
+        <div class="loader-inner">
+            <div class="loader-sphere"></div>
+            <div class="loader-sphere"></div>
+            <div class="loader-sphere"></div>
+            <div class="loader-sphere"></div>
+            <div class="loader-sphere"></div>
+        </div>
+        <div class="loader-text">Chargement de l'expérience...</div>
+    </div>
+
+    <!-- Navigation Élégante -->
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="logo" data-aos="fade-right">
+                <span class="logo-text">MG</span>
+            </div>
+            <div class="nav-links">
+                <a href="#accueil" class="nav-link" data-aos="fade-down" data-aos-delay="100">Accueil</a>
+                <a href="#projets" class="nav-link" data-aos="fade-down" data-aos-delay="200">Projets</a>
+                <a href="#competences" class="nav-link" data-aos="fade-down" data-aos-delay="300">Compétences</a>
+                <a href="#about" class="nav-link" data-aos="fade-down" data-aos-delay="400">À Propos</a>
+                <a href="#contact" class="nav-link" data-aos="fade-down" data-aos-delay="500">Contact</a>
+            </div>
+            <div class="hamburger" data-aos="fade-left">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Navigation Spatiale -->
+    <div class="space-nav">
+        <div class="space-dots">
+            <a href="#accueil" class="space-dot active" data-tooltip="Accueil"></a>
+            <a href="#projets" class="space-dot" data-tooltip="Projets"></a>
+            <a href="#competences" class="space-dot" data-tooltip="Compétences"></a>
+            <a href="#À Propos" class="space-dot" data-tooltip="À Propos"></a>
+            <a href="#contact" class="space-dot" data-tooltip="Contact"></a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="accueil" class="hero">
+        <div class="hero-matrix">
+            <canvas id="matrixCanvas"></canvas>
+            <div class="matrix-overlay"></div>
+        </div>
+
+        <div class="hero-content">
+            <h1 data-aos="fade-up" data-aos-delay="300">
+                <span class="greeting">Bonjour, Je suis</span>
+                <span class="name">GAILLARD Maxence</span>
+                <span class="title">Mon portfolio</span>
+            </h1>
+            <p class="hero-description" data-aos="fade-up" data-aos-delay="500">Etudiant en BTS SIO (Services
+                Infomatiques aux Organisations)</p>
+            <div class="hero-cta" data-aos="fade-up" data-aos-delay="700">
+                <a href="#projets" class="btn btn-primary">Voir mes travaux</a>
+                <a href="#contact" class="btn btn-secondary">Me contacter</a>
+            </div>
+        </div>
+        <div class="hero-image" data-aos="fade-left" data-aos-delay="900">
+            <div class="image-container">
+                <img src="/images/image_code.jpg" alt="Votre photo">
+                <div class="image-decoration"></div>
+            </div>
+        </div>
+        <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="1100">
+            <span>Scroll</span>
+            <div class="line"></div>
+        </div>
+    </section>
+
+    <!-- Projets Section -->
+    <section id="projets" class="projects">
+        <div class="section-header" data-aos="fade-up">
+            <h2>Mes <span>Projets</span></h2>
+            <p>Une sélection de mes principaux travaux</p>
+        </div>
+        <div class="projects-grid">
+            <!-- Projet 1 -->
+            <div class="project-card hologram" data-aos="fade-up" data-aos-delay="200">
+                <div class="hologram-content">
+                    <h3>Projet...</h3>
+                    <p>Technologies: HTML/CSS</p>
+                    <a href="#" class="btn btn-small">Voir plus</a>
+                </div>
+                <div class="hologram-light"></div>
+                <div class="hologram-grid"></div>
+            </div>
+
+            <!-- Projet 2 -->
+            <div class="project-card hologram" data-aos="fade-up" data-aos-delay="300">
+                <div class="hologram-content">
+                    <h3>Site BST79</h3>
+                    <p>Technologies: Wordpress</p>
+                    <a href="#" class="btn btn-small">Voir plus</a>
+                </div>
+                <div class="hologram-light"></div>
+                <div class="hologram-grid"></div>
+            </div>
+
+            <!-- Projet 3 -->
+            <div class="project-card hologram" data-aos="fade-up" data-aos-delay="400">
+                <div class="hologram-content">
+                    <h3>Site Web Créatif</h3>
+                    <p>Technologies: HTML/CSS, JavaScript</p>
+                    <a href="#" class="btn btn-small">Voir plus</a>
+                </div>
+                <div class="hologram-light"></div>
+                <div class="hologram-grid"></div>
+            </div>
+        </div>
+        <!-- Modal pour les projets -->
+        <div class="project-modal" id="projectModal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <div class="modal-header">
+                    <h2 id="modalProjectTitle">Titre du Projet</h2>
+                    <p id="modalProjectTech">Technologies utilisées</p>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-image-container">
+                        <img id="modalProjectImage" src="" alt="Image du projet">
+                    </div>
+                    <div class="modal-description">
+                        <h3>Description</h3>
+                        <p id="modalProjectDescription">Description détaillée du projet...</p>
+                        <h3>Détails</h3>
+                        <ul id="modalProjectDetails">
+                            <!-- Les détails seront ajoutés dynamiquement -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-primary" id="modalProjectLink" target="_blank">Voir le projet</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plus de projets (caché initialement) -->
+        <div class="more-projects" id="moreProjects">
+            <div class="projects-grid">
+                <!-- Projets supplémentaires seront ajoutés ici dynamiquement -->
+            </div>
+            <div class="load-more-container">
+                <button class="btn btn-secondary" id="showLessBtn">Voir moins</button>
+            </div>
+        </div>
+
+        <div class="load-more-container">
+            <button class="btn btn-primary" id="loadMoreBtn">Voir plus de projets</button>
+        </div>
+    </section>
+
+
+    <!-- Compétences Section -->
+    <section id="competences" class="skills">
+        <div class="section-header" data-aos="fade-up">
+            <h2>Mes <span>Compétences</span></h2>
+            <p>Technologies que je maîtrise</p>
+        </div>
+        <div class="skills-container">
+            <div class="skills-radar" data-aos="fade-right">
+                <canvas id="radarChart"></canvas>
+            </div>
+            <div class="skills-list" data-aos="fade-left">
+                <div class="skill-category">
+                    <h3>Frontend</h3>
+                    <div class="skill-bar">
+                        <span class="skill-name">HTML/CSS</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <span class="skill-name">JavaScript</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 70%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <span class="skill-name">Java</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 55%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Backend</h3>
+                    <div class="skill-bar">
+                        <span class="skill-name">C++</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 35%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <span class="skill-name">Python</span>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+        <div class="skills-button-container">
+            <button class="btn btn-secondary" id="showMoreSkillsBtn">Voir plus de compétences</button>
+        </div>
+
+    </section>
+
+    <!-- Modal pour les compétences supplémentaires -->
+    <div class="skills-modal" id="skillsModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2>Compétences <span>Supplémentaires</span></h2>
+                <p>D'autres technologies que j'utilise</p>
+            </div>
+            <div class="modal-body">
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>Bases de données</h3>
+                        <div class="skill-bar">
+                            <span class="skill-name">SQL</span>
+                            <div class="bar-container">
+                                <div class="bar" style="width: 65%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-bar">
+                            <span class="skill-name">MongoDB</span>
+                            <div class="bar-container">
+                                <div class="bar" style="width: 50%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3>Frameworks</h3>
+                        <div class="skill-bar">
+                            <span class="skill-name">React</span>
+                            <div class="bar-container">
+                                <div class="bar" style="width: 60%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-bar">
+                            <span class="skill-name">Vue.js</span>
+                            <div class="bar-container">
+                                <div class="bar" style="width: 45%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3>Outils</h3>
+                        <div class="skill-bar">
+                            <span class="skill-name">Git</span>
+                            <div class="bar-container">
+                                <div class="bar" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-bar">
+                            <span class="skill-name">Docker</span>
+                            <div class="bar-container">
+                                <div class="bar" style="width: 40%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- À Propos Section -->
+    <section id="À propos" class="about">
+        <div class="section-header" data-aos="fade-up">
+            <h2>À <span>Propos</span></h2>
+            <p>Qui suis-je ?</p>
+        </div>
+        <div class="about-container">
+            <div class="about-image" data-aos="fade-right">
+                <img src="/images/image_clavier_code.jpg" alt="À propos">
+                <div class="about-decoration"></div>
+            </div>
+            <div class="about-content" data-aos="fade-left">
+                <h3>Mon parcours</h3>
+                <p>BTS SIO Option SLAM</p>
+                <p>Objectif : licence informatique</p>
+
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-buttons">
+                            <span class="terminal-btn red"></span>
+                            <span class="terminal-btn yellow"></span>
+                            <span class="terminal-btn green"></span>
+                        </div>
+                        <div class="terminal-title">vn@portfolio: ~</div>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="terminal-content">
+                            <p class="terminal-line"><span class="terminal-prompt">$</span> Bienvenue dans mon portfolio
+                            </p>
+                            <p class="terminal-line"><span class="terminal-prompt">$</span> Tapez <span
+                                    class="terminal-command">help</span> pour voir les options</p>
+                            <div class="terminal-input-line">
+                                <span class="terminal-prompt">$</span>
+                                <input type="text" class="terminal-input" autofocus>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="section-header" data-aos="fade-up">
+            <h2>Me <span>Contacter</span></h2>
+            <p>Travaillons ensemble</p>
+        </div>
+        <form class="contact-form" data-aos="fade-up" data-aos-delay="200">
+            <div class="form-group">
+                <input type="text" id="name" required>
+                <label for="name">Votre Nom</label>
+            </div>
+            <div class="form-group">
+                <input type="email" id="email" required>
+                <label for="email">Votre Email</label>
+            </div>
+            <div class="form-group">
+                <textarea id="message" required></textarea>
+                <label for="message">Votre Message</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Envoyer</button>
+        </form>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="glass-footer">
+        <div class="footer-content">
+            <div class="footer-logo">MG</div>
+            <div class="footer-links">
+                <a href="#accueil">Accueil</a>
+                <a href="#projets">Projets</a>
+                <a href="#competences">Compétences</a>
+                <a href="#about">À Propos</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="footer-social">
+                <a href="https://github.com/maxs-gld" target="_blank" rel="noopener noreferrer"><i
+                        class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/maxence-gaillard-182161328" target="_blank"
+                    rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+                <a href="https://x.com/max49x2" target="_blank" rel="noopener noreferrer"><i
+                        class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            &copy; <span id="year"></span> Gaillard Maxence. Tous droits réservés.
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
