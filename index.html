@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <title>Gaillard Maxence | Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link
@@ -14,6 +15,9 @@
 </head>
 
 <body class="dark-theme">
+    <!-- Effets Visuels background-->
+    <div class="matrix-grid"></div>
+    <div class="light-sweep"></div>
     <!-- Loader -->
     <div class="loader">
         <div class="loader-inner">
@@ -23,7 +27,7 @@
             <div class="loader-sphere"></div>
             <div class="loader-sphere"></div>
         </div>
-        <div class="loader-text">Chargement de l'expérience...</div>
+        <div class="loader-text">Chargement du site...</div>
     </div>
 
     <!-- Navigation Élégante -->
@@ -37,6 +41,7 @@
                 <a href="#projets" class="nav-link" data-aos="fade-down" data-aos-delay="200">Projets</a>
                 <a href="#competences" class="nav-link" data-aos="fade-down" data-aos-delay="300">Compétences</a>
                 <a href="#about" class="nav-link" data-aos="fade-down" data-aos-delay="400">À Propos</a>
+                <a href="#veille" class="nav-link" data-aos="fade-down" data-aos-delay="450">Veille</a>
                 <a href="#contact" class="nav-link" data-aos="fade-down" data-aos-delay="500">Contact</a>
             </div>
             <div class="hamburger" data-aos="fade-left">
@@ -53,7 +58,8 @@
             <a href="#accueil" class="space-dot active" data-tooltip="Accueil"></a>
             <a href="#projets" class="space-dot" data-tooltip="Projets"></a>
             <a href="#competences" class="space-dot" data-tooltip="Compétences"></a>
-            <a href="#À Propos" class="space-dot" data-tooltip="À Propos"></a>
+            <a href="#about" class="space-dot" data-tooltip="À Propos"></a>
+            <a href="#veille" class="space-dot" data-tooltip="Veille"></a>
             <a href="#contact" class="space-dot" data-tooltip="Contact"></a>
         </div>
     </div>
@@ -79,9 +85,13 @@
             </div>
         </div>
         <div class="hero-image" data-aos="fade-left" data-aos-delay="900">
-            <div class="image-container">
-                <img src="/images/image_code.jpg" alt="Votre photo">
-                <div class="image-decoration"></div>
+            <div
+                class="relative w-72 h-72 mx-auto animate-morph bg-gradient-to-br from-primary via-secondary to-accent rounded-full overflow-hidden">
+                <div
+                    class="absolute inset-0 bg-gradient-to-br from-primary/50 via-secondary/50 to-accent/50 rounded-full blur-2xl animate-morph">
+                </div>
+                <img src="/images/image_code.jpg" alt="Votre photo"
+                    class="absolute inset-0 w-full h-full object-cover z-10">
             </div>
         </div>
         <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="1100">
@@ -295,7 +305,7 @@
     </section>
 
     <!-- À Propos Section -->
-    <section id="À propos" class="about">
+    <section id="about" class="about">
         <div class="section-header" data-aos="fade-up">
             <h2>À <span>Propos</span></h2>
             <p>Qui suis-je ?</p>
@@ -317,19 +327,118 @@
                             <span class="terminal-btn yellow"></span>
                             <span class="terminal-btn green"></span>
                         </div>
-                        <div class="terminal-title">vn@portfolio: ~</div>
+                        <div class="terminal-title">maxence@portfolio: ~</div>
                     </div>
                     <div class="terminal-body">
                         <div class="terminal-content">
-                            <p class="terminal-line"><span class="terminal-prompt">$</span> Bienvenue dans mon portfolio
-                            </p>
-                            <p class="terminal-line"><span class="terminal-prompt">$</span> Tapez <span
-                                    class="terminal-command">help</span> pour voir les options</p>
-                            <div class="terminal-input-line">
-                                <span class="terminal-prompt">$</span>
-                                <input type="text" class="terminal-input" autofocus>
+                            <div class="terminal-welcome">
+                                <span class="welcome-command">$ welcome --portfolio</span>
+                                <div class="welcome-message">
+                                    <span class="greeting">Bienvenue dans mon univers numérique</span>
+                                    <span class="typing-effect">Étudiant passionné en développement web & mobile</span>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Veille Section -->
+    <section id="veille" class="veille">
+        <div class="section-header" data-aos="fade-up">
+            <h2>Ma <span>Veille Technologique</span></h2>
+            <p>Suivi des dernières tendances et innovations</p>
+        </div>
+
+        <div class="veille-container">
+            <!-- Carte Veille 1 -->
+            <div class="veille-card hologram" data-aos="fade-up" data-aos-delay="200">
+                <div class="veille-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="veille-content">
+                    <h3>Intelligence Artificielle</h3>
+                    <span class="veille-date">Mise à jour: Décembre 2024</span>
+                    <p>Suivi des avancées en IA générative, machine learning et leurs applications dans le développement
+                        web.</p>
+                    <div class="veille-tags">
+                        <span class="tag">GPT-4</span>
+                        <span class="tag">TensorFlow</span>
+                        <span class="tag">AutoML</span>
+                    </div>
+                    <a href="#" class="btn btn-small">Voir les ressources</a>
+                </div>
+                <div class="hologram-light"></div>
+                <div class="hologram-grid"></div>
+            </div>
+
+            <!-- Carte Veille 2 -->
+            <div class="veille-card hologram" data-aos="fade-up" data-aos-delay="300">
+                <div class="veille-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="veille-content">
+                    <h3>Cybersécurité</h3>
+                    <span class="veille-date">Mise à jour: Novembre 2024</span>
+                    <p>Veille sur les nouvelles vulnérabilités, méthodes de protection et bonnes pratiques en sécurité
+                        web.</p>
+                    <div class="veille-tags">
+                        <span class="tag">OWASP</span>
+                        <span class="tag">Zero Trust</span>
+                        <span class="tag">Cryptographie</span>
+                    </div>
+                    <a href="#" class="btn btn-small">Voir les ressources</a>
+                </div>
+                <div class="hologram-light"></div>
+                <div class="hologram-grid"></div>
+            </div>
+
+            <!-- Carte Veille 3 -->
+            <div class="veille-card hologram" data-aos="fade-up" data-aos-delay="400">
+                <div class="veille-icon">
+                    <i class="fas fa-cloud"></i>
+                </div>
+                <div class="veille-content">
+                    <h3>Cloud Computing</h3>
+                    <span class="veille-date">Mise à jour: Octobre 2024</span>
+                    <p>Surveillance des évolutions des plateformes cloud, serverless et architectures microservices.</p>
+                    <div class="veille-tags">
+                        <span class="tag">AWS</span>
+                        <span class="tag">Kubernetes</span>
+                        <span class="tag">Serverless</span>
+                    </div>
+                    <a href="#" class="btn btn-small">Voir les ressources</a>
+                </div>
+                <div class="hologram-light"></div>
+                <div class="hologram-grid"></div>
+            </div>
+        </div>
+
+        <!-- Timeline des veilles -->
+        <div class="veille-timeline" data-aos="fade-up" data-aos-delay="500">
+            <h3>Timeline de ma veille</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2024</div>
+                    <div class="timeline-content">
+                        <h4>IA Générative</h4>
+                        <p>Explosion des outils IA pour le développement</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2023</div>
+                    <div class="timeline-content">
+                        <h4>Web3 & Blockchain</h4>
+                        <p>Étude des applications décentralisées</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2022</div>
+                    <div class="timeline-content">
+                        <h4>JAMstack</h4>
+                        <p>Adoption des architectures modernes</p>
                     </div>
                 </div>
             </div>
@@ -369,6 +478,7 @@
                 <a href="#projets">Projets</a>
                 <a href="#competences">Compétences</a>
                 <a href="#about">À Propos</a>
+                <a href="#veille">Veille</a>
                 <a href="#contact">Contact</a>
             </div>
             <div class="footer-social">
@@ -376,8 +486,6 @@
                         class="fab fa-github"></i></a>
                 <a href="https://www.linkedin.com/in/maxence-gaillard-182161328" target="_blank"
                     rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
-                <a href="https://x.com/max49x2" target="_blank" rel="noopener noreferrer"><i
-                        class="fab fa-twitter"></i></a>
             </div>
         </div>
         <div class="footer-copyright">

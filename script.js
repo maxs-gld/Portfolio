@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
     matrixCanvas.width = window.innerWidth;
     matrixCanvas.height = window.innerHeight;
 
-    const nom = "MAXENCE GAILLARD 0 1";
+    const nom = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*()*&^%";
 
     const alphabet = nom;
 
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const draw = () => {
       const ctx = matrixCanvas.getContext("2d");
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
       ctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
 
       ctx.fillStyle = "#0F0";
@@ -191,81 +191,8 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     });
   }
-
-  // Terminal Interaction
-  const terminalInput = document.querySelector(".terminal-input");
-  if (terminalInput) {
-    const terminalContent = document.querySelector(".terminal-content");
-
-    const commands = {
-      help: () => {
-        addTerminalLine("Commandes disponibles:");
-        addTerminalLine("• about - À propos de moi");
-        addTerminalLine("• projects - Voir mes projets");
-        addTerminalLine("• contact - Me contacter");
-        addTerminalLine("• clear - Nettoyer le terminal");
-        addTerminalLine("• matrix - Activer le mode matrix");
-      },
-      about: () => {
-        addTerminalLine(
-          "Je suis un développeur passionné par la création d'expériences web innovantes et mémorables."
-        );
-        addTerminalLine(
-          "Avec plus de X années d'expérience, je combine design et technologie pour créer des solutions uniques."
-        );
-      },
-      projects: () => {
-        window.location.hash = "#projets";
-        addTerminalLine("Redirection vers la section projets...");
-      },
-      contact: () => {
-        window.location.hash = "#contact";
-        addTerminalLine("Redirection vers la section contact...");
-      },
-      clear: () => {
-        terminalContent.innerHTML = "";
-      },
-      matrix: () => {
-        document.body.classList.add("matrix-mode");
-        addTerminalLine('Mode Matrix activé! Tapez "exit" pour quitter.');
-      },
-      exit: () => {
-        document.body.classList.remove("matrix-mode");
-        addTerminalLine("Mode Matrix désactivé.");
-      },
-    };
-
-    terminalInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        const command = terminalInput.value.trim().toLowerCase();
-        terminalInput.value = "";
-
-        addTerminalLine(`$ ${command}`, "input");
-
-        if (commands[command]) {
-          commands[command]();
-        } else {
-          addTerminalLine(
-            `Commande non reconnue: ${command}. Tapez "help" pour voir les commandes disponibles.`
-          );
-        }
-      }
-    });
-
-    function addTerminalLine(text, type = "output") {
-      const line = document.createElement("p");
-      line.classList.add("terminal-line");
-
-      if (type === "input") {
-        line.innerHTML = `<span class="terminal-prompt">$</span> ${text}`;
-      } else {
-        line.innerHTML = text;
-      }
-
-      terminalContent.appendChild(line);
-      terminalContent.scrollTop = terminalContent.scrollHeight;
-    }
-  }
+});
+ 
 
   // Transition fluide entre sections
   const links = document.querySelectorAll('a[href^="#"]');
@@ -360,16 +287,49 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Animation des barres de compétences
-  const skillBars = document.querySelectorAll(".bar");
-  skillBars.forEach((bar) => {
-    const width = bar.style.width;
-    bar.style.width = "0";
+// Animation des barres de compétences principales
+function animateMainSkills() {
+    const skillBars = document.querySelectorAll('.skills-list .bar');
+    
+    skillBars.forEach((bar, index) => {
+        // Réinitialiser à 0
+        bar.style.width = '0';
+        
+        // Animer avec un délai progressif
+        setTimeout(() => {
+            const width = bar.getAttribute('data-width') || bar.style.width;
+            bar.style.width = width;
+        }, 300 + index * 200);
+    });
+}
 
-    setTimeout(() => {
-      bar.style.width = width;
-    }, 500);
-  });
+// Animation des barres de compétences dans la modal
+function animateSkillsModalBars() {
+    const skillBars = skillsModal.querySelectorAll('.bar');
+    
+    // Réinitialiser toutes les barres à 0
+    skillBars.forEach(bar => {
+        bar.style.width = '0';
+    });
+    
+    // Animer chaque barre avec un délai progressif
+    skillBars.forEach((bar, index) => {
+        setTimeout(() => {
+            const width = bar.getAttribute('data-width') || bar.style.width;
+            bar.style.width = width;
+        }, 200 + index * 150);
+    });
+}
+
+// Initialiser les largeurs des barres au chargement
+document.addEventListener('DOMContentLoaded', function() {
+    // Stocker les largeurs originales pour les barres principales
+    const mainSkillBars = document.querySelectorAll('.skills-list .bar');
+    mainSkillBars.forEach(bar => {
+        const width = bar.style.width;
+        bar.setAttribute('data-width', width);
+        bar.style.width = '0';
+    });
 });
 
 // Gestion de la modal des compétences supplémentaires
@@ -378,53 +338,31 @@ const showMoreSkillsBtn = document.getElementById("showMoreSkillsBtn");
 const closeSkillsModal = skillsModal.querySelector(".close-modal");
 
 // Ouvrir la modal
-showMoreSkillsBtn.addEventListener("click", () => {
-  skillsModal.style.display = "block";
-  document.body.style.overflow = "hidden";
-});
-
-// Fermer la modal
-closeSkillsModal.addEventListener("click", () => {
-  skillsModal.style.display = "none";
-  document.body.style.overflow = "auto";
-});
-
-// Fermer en cliquant à l'extérieur
-window.addEventListener("click", (e) => {
-  if (e.target === skillsModal) {
-    skillsModal.style.display = "none";
-    document.body.style.overflow = "auto";
-  }
-});
-
-// Animation des barres de compétences dans la modal
-function animateSkillsModalBars() {
-    const skillBars = skillsModal.querySelectorAll('.bar');
-    skillBars.forEach((bar, index) => {
-        const width = bar.style.width;
-        bar.style.width = '0';
-        
-        setTimeout(() => {
-            bar.style.width = width;
-        }, 200 + index * 100); // Délai progressif pour chaque barre
-    });
-}
-
-// Ouvrir la modal
 showMoreSkillsBtn.addEventListener('click', () => {
     skillsModal.style.display = 'block';
     document.body.style.overflow = 'hidden';
-    animateSkillsModalBars(); // Lancer l'animation quand la modal s'ouvre
+    
+    // Lancer l'animation après un court délai pour que la modal soit visible
+    setTimeout(() => {
+        animateSkillsModalBars();
+    }, 100);
 });
 
-// Réinitialiser les animations quand la modal se ferme
+// Fermer la modal
 closeSkillsModal.addEventListener('click', () => {
     skillsModal.style.display = 'none';
     document.body.style.overflow = 'auto';
-    skillsModal.querySelectorAll('.bar').forEach(bar => {
-        bar.style.width = '0'; // Réinitialiser pour la prochaine ouverture
-    });
 });
+
+// Fermer en cliquant à l'extérieur
+window.addEventListener('click', (e) => {
+    if (e.target === skillsModal) {
+        skillsModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+});
+
+
 
 // Effet de parallaxe avancé
 const parallaxElements = document.querySelectorAll("[data-parallax]");
@@ -675,4 +613,216 @@ showLessBtn.addEventListener("click", () => {
     }
   );
   loadMoreBtn.style.display = "inline-block";
+});
+
+// Ajoutez cette fonction pour animer le background
+function animateBackground() {
+    const background = document.querySelector('.matrix-grid');
+    if (background) {
+        gsap.to(background, {
+            duration: 30,
+            backgroundPosition: '200px 200px',
+            repeat: -1,
+            ease: 'none',
+            yoyo: true
+        });
+    }
+}
+
+// Gestion du responsive
+function handleResponsive() {
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    
+    // Désactiver certains effets sur mobile
+    if (screenWidth <= 768) {
+        // Désactiver le parallaxe sur mobile
+        if (heroImage) {
+            heroImage.style.transform = 'none';
+        }
+        
+        // Simplifier les animations
+        AOS.init({
+            duration: 400,
+            once: true
+        });
+    } else {
+        // Réactiver pour les grands écrans
+        AOS.init({
+            duration: 800,
+            once: false
+        });
+    }
+    
+    // Ajuster le canvas Matrix pour les petits écrans
+    if (matrixCanvas) {
+        matrixCanvas.width = screenWidth;
+        matrixCanvas.height = Math.min(screenHeight, 800);
+    }
+}
+
+// Écouter le redimensionnement
+window.addEventListener('resize', handleResponsive);
+window.addEventListener('load', handleResponsive);
+
+// Appeler une fois au chargement
+handleResponsive();
+
+// Gestion du responsive améliorée
+function handleResponsive() {
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    
+    // Désactiver certains effets sur mobile
+    if (screenWidth <= 767) {
+        // Désactiver le parallaxe sur mobile
+        if (heroImage) {
+            heroImage.style.transform = 'none';
+            window.removeEventListener('mousemove', parallaxHandler);
+        }
+        
+        // Désactiver le curseur personnalisé
+        if (cursor) cursor.style.display = 'none';
+        if (cursorFollower) cursorFollower.style.display = 'none';
+        
+        // Simplifier AOS
+        AOS.init({
+            duration: 400,
+            once: true,
+            disable: function() {
+                return screenWidth <= 767;
+            }
+        });
+        
+        // Ajuster le canvas Matrix
+        if (matrixCanvas) {
+            matrixCanvas.style.display = 'none';
+        }
+        
+    } else {
+        // Réactiver pour les grands écrans
+        if (heroImage) {
+            window.addEventListener('mousemove', parallaxHandler);
+        }
+        
+        if (cursor) cursor.style.display = 'block';
+        if (cursorFollower) cursorFollower.style.display = 'block';
+        
+        AOS.init({
+            duration: 800,
+            once: false
+        });
+        
+        if (matrixCanvas) {
+            matrixCanvas.style.display = 'block';
+            matrixCanvas.width = screenWidth;
+            matrixCanvas.height = Math.min(screenHeight, 800);
+        }
+    }
+    
+    // Gestion spécifique pour les très petits écrans
+    if (screenWidth <= 480) {
+        document.body.classList.add('mobile-small');
+    } else {
+        document.body.classList.remove('mobile-small');
+    }
+    
+    // Gestion de l'orientation paysage
+    if (screenHeight <= 500 && screenWidth <= 767) {
+        document.body.classList.add('landscape-mobile');
+    } else {
+        document.body.classList.remove('landscape-mobile');
+    }
+}
+
+// Handler pour le parallaxe
+function parallaxHandler(e) {
+    if (window.innerWidth > 767 && heroImage) {
+        const x = (window.innerWidth - e.pageX) / 50;
+        const y = (window.innerHeight - e.pageY) / 50;
+        heroImage.style.transform = `translate(${x}px, ${y}px)`;
+    }
+}
+
+// Réinitialiser au redimensionnement
+let resizeTimeout;
+window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(handleResponsive, 250);
+});
+
+// Gestion du menu hamburger améliorée
+hamburger.addEventListener('click', function() {
+    this.classList.toggle('active');
+    navLinksContainer.classList.toggle('active');
+    
+    // Empêcher le scroll quand le menu est ouvert
+    if (navLinksContainer.classList.contains('active')) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'auto';
+    }
+});
+
+// Fermer le menu en cliquant sur un lien
+navLinks.forEach(link => {
+    link.addEventListener('click', function() {
+        if (window.innerWidth <= 767) {
+            hamburger.classList.remove('active');
+            navLinksContainer.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    });
+});
+
+function updateSpaceNav() {
+    const scrollPosition = window.scrollY;
+
+    document.querySelectorAll("section").forEach((section) => {
+        const sectionTop = section.offsetTop - 100;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute("id");
+
+        if (
+            scrollPosition >= sectionTop &&
+            scrollPosition < sectionTop + sectionHeight
+        ) {
+            spaceDots.forEach((dot) => {
+                dot.classList.remove("active");
+                if (dot.getAttribute("href") === `#${sectionId}`) {
+                    dot.classList.add("active");
+                }
+            });
+        }
+    });
+}
+
+// Animation des cartes veille au scroll
+function animateVeilleCards() {
+    const veilleCards = document.querySelectorAll('.veille-card');
+    
+    veilleCards.forEach((card, index) => {
+        const cardTop = card.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (cardTop < windowHeight - 100) {
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, index * 200);
+        }
+    });
+}
+
+// Initialiser l'animation
+document.addEventListener('DOMContentLoaded', function() {
+    const veilleCards = document.querySelectorAll('.veille-card');
+    veilleCards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'all 0.6s ease';
+    });
+    
+    window.addEventListener('scroll', animateVeilleCards);
+    animateVeilleCards(); // Appeler une fois au chargement
 });
