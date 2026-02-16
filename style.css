@@ -227,7 +227,8 @@ nav {
    ═══════════════════════════════════════════════════════ */
 #hero {
   position: relative; min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
+  display: flex; align-items: flex-end; justify-content: center;
+  padding-bottom: 6rem;
   overflow: hidden;
 }
 
