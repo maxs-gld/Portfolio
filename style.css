@@ -250,7 +250,7 @@ nav {
 
 .hero-content {
   position: relative; z-index: 5;
-  text-align: center; padding: 2rem;
+  text-align: center; padding: 6rem 2rem 2rem;
   opacity: 0;
   animation: heroIn 1.2s cubic-bezier(0.16,1,0.3,1) 2.4s forwards;
 }
