@@ -154,114 +154,42 @@ addEventListener('scroll', () => {
   });
 });
 
-// ══════ INSANE NAV WARP TRANSITION ══════
-const navTrans = document.getElementById('navTransition');
-const warpFlash = document.getElementById('warpFlash');
-const warpRing = document.getElementById('warpRing');
-const speedLinesEl = document.getElementById('speedLines');
-const warpParticlesEl = document.getElementById('warpParticles');
-const warpVignette = document.getElementById('warpVignette');
-let isWarping = false;
+// ══════ MORPH / DISSOLVE NAV TRANSITION ══════
+const navOverlay = document.getElementById('navOverlay');
+let isMorphing = false;
 
-function createSpeedLines() {
-  speedLinesEl.innerHTML = '';
-  for (let i = 0; i < 30; i++) {
-    const line = document.createElement('div');
-    line.classList.add('speed-line');
-    const angle = (i / 30) * 360;
-    line.style.transform = `rotate(${angle}deg)`;
-    line.style.animationDelay = `${Math.random() * 0.15}s`;
-    line.style.width = `${Math.random() * 1.5 + 1}px`;
-    line.style.background = `linear-gradient(to bottom, transparent, ${
-      Math.random() > 0.6 ? 'var(--accent2)' : Math.random() > 0.3 ? 'var(--accent)' : 'var(--accent3)'
-    }, transparent)`;
-    speedLinesEl.appendChild(line);
-  }
-}
+function triggerMorph(targetEl) {
+  if (isMorphing) return;
+  isMorphing = true;
 
-function createWarpParticles() {
-  warpParticlesEl.innerHTML = '';
-  for (let i = 0; i < 40; i++) {
-    const p = document.createElement('div');
-    p.classList.add('warp-particle');
-    const angle = Math.random() * Math.PI * 2;
-    const dist = 100 + Math.random() * 400;
-    p.style.setProperty('--px', `${Math.cos(angle) * dist}px`);
-    p.style.setProperty('--py', `${Math.sin(angle) * dist}px`);
-    p.style.animationDelay = `${Math.random() * 0.2}s`;
-    p.style.width = `${Math.random() * 4 + 1}px`;
-    p.style.height = p.style.width;
-    const colors = ['var(--accent)', 'var(--accent2)', 'var(--accent3)', 'var(--fg)'];
-    p.style.background = colors[Math.floor(Math.random() * colors.length)];
-    warpParticlesEl.appendChild(p);
-  }
-}
+  // Phase 1 — Morph out: blur + fade + overlay
+  document.body.classList.remove('morph-in');
+  document.body.classList.add('morph-out');
+  navOverlay.classList.add('active');
 
-function createGlitchBars() {
-  const existing = navTrans.querySelectorAll('.glitch-bar');
-  existing.forEach(b => b.remove());
-  for (let i = 0; i < 8; i++) {
-    const bar = document.createElement('div');
-    bar.classList.add('glitch-bar');
-    bar.style.top = `${Math.random() * 100}%`;
-    bar.style.height = `${Math.random() * 3 + 1}px`;
-    bar.style.animationDelay = `${Math.random() * 0.3}s`;
-    const colors = ['var(--accent)', 'var(--accent2)', 'var(--accent3)'];
-    bar.style.background = colors[Math.floor(Math.random() * colors.length)];
-    navTrans.appendChild(bar);
-  }
-}
-
-function triggerWarp(targetEl) {
-  if (isWarping) return;
-  isWarping = true;
-
-  // Setup
-  createSpeedLines();
-  createWarpParticles();
-  createGlitchBars();
-
-  navTrans.classList.add('active');
-
-  // Body distort
-  document.body.classList.add('body-warp');
-
-  // Trigger all animations
-  warpFlash.classList.add('animate');
-  warpRing.classList.add('animate');
-  speedLinesEl.classList.add('animate');
-  speedLinesEl.querySelectorAll('.speed-line').forEach(l => l.classList.add('animate'));
-  warpParticlesEl.querySelectorAll('.warp-particle').forEach(p => p.classList.add('animate'));
-  warpVignette.classList.add('animate');
-  navTrans.querySelectorAll('.glitch-bar').forEach(b => b.classList.add('animate'));
-
-  // Scroll at the peak of the vignette (when screen is black)
+  // Phase 2 — At peak blur: scroll instantly + prep reveal
   setTimeout(() => {
-    // Instant scroll (no smooth, we handle the animation ourselves)
     const targetY = targetEl.getBoundingClientRect().top + window.scrollY - 80;
     window.scrollTo({ top: targetY, behavior: 'instant' });
 
-    // Reveal the target section with a cinematic entrance
-    targetEl.classList.add('section-warp-reveal');
-
-    // Make sure reveals inside target fire
+    // Fire reveals inside target section
     targetEl.querySelectorAll('.reveal').forEach(r => r.classList.add('visible'));
-  }, 320);
 
-  // Cleanup
+    // Phase 3 — Morph in: unblur + fade in
+    document.body.classList.remove('morph-out');
+    document.body.classList.add('morph-in');
+    navOverlay.classList.remove('active');
+
+    // Section cinematic entrance
+    targetEl.classList.add('section-morph-reveal');
+  }, 450);
+
+  // Phase 4 — Cleanup
   setTimeout(() => {
-    navTrans.classList.remove('active');
-    document.body.classList.remove('body-warp');
-
-    [warpFlash, warpRing, speedLinesEl, warpVignette].forEach(el => el.classList.remove('animate'));
-    speedLinesEl.querySelectorAll('.speed-line').forEach(l => l.classList.remove('animate'));
-    warpParticlesEl.querySelectorAll('.warp-particle').forEach(p => p.classList.remove('animate'));
-    navTrans.querySelectorAll('.glitch-bar').forEach(b => b.remove());
-
-    targetEl.classList.remove('section-warp-reveal');
-
-    isWarping = false;
-  }, 1000);
+    document.body.classList.remove('morph-in');
+    targetEl.classList.remove('section-morph-reveal');
+    isMorphing = false;
+  }, 1050);
 }
 
 // Attach to all nav links
@@ -269,7 +197,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
     const target = document.querySelector(a.getAttribute('href'));
-    if (target) triggerWarp(target);
+    if (target) triggerMorph(target);
   });
 });
 
