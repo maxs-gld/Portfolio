@@ -1,828 +1,430 @@
-document.addEventListener("DOMContentLoaded", function () {
-  // Initialiser AOS (Animate On Scroll)
-  AOS.init({
-    duration: 800,
-    easing: "ease-in-out",
-    once: false,
-  });
+// ══════ PRELOADER ══════
+const preloaderEl = document.getElementById('preloader');
+const counterEl = document.getElementById('preloaderCount');
+let count = 0;
+const countInterval = setInterval(() => {
+  count += Math.floor(Math.random() * 12) + 3;
+  if (count >= 100) { count = 100; clearInterval(countInterval); }
+  counterEl.textContent = count + '%';
+}, 50);
 
-  // Animation de la Navbar au scroll
-  const navbar = document.querySelector(".glass-nav");
-  let lastScrollY = window.scrollY;
+window.addEventListener('load', () => {
+  setTimeout(() => { preloaderEl.classList.add('done'); }, 2400);
+});
 
-  window.addEventListener("scroll", () => {
-    if (lastScrollY < window.scrollY) {
-      navbar.style.transform = "translateY(-100%)";
-    } else {
-      navbar.style.transform = "translateY(0)";
-    }
-    lastScrollY = window.scrollY;
+// ══════ CUSTOM CURSOR ══════
+const cursor = document.getElementById('cursor');
+const cursorDot = document.getElementById('cursorDot');
+let cx = 0, cy = 0, dx = 0, dy = 0;
 
-    // Ajouter une ombre après un certain scroll
-    if (window.scrollY > 50) {
-      navbar.style.boxShadow = "0 4px 30px rgba(0, 0, 0, 0.2)";
-    } else {
-      navbar.style.boxShadow = "none";
-    }
-  });
+document.addEventListener('mousemove', e => {
+  cx = e.clientX; cy = e.clientY;
+  cursorDot.style.left = cx + 'px';
+  cursorDot.style.top = cy + 'px';
+});
 
-  // Animation des liens de navigation
-  const navLinks = document.querySelectorAll(".nav-link");
-  navLinks.forEach((link) => {
-    link.addEventListener("mouseenter", () => {
-      gsap.to(link, {
-        scale: 1.05,
-        duration: 0.3,
-      });
-    });
-    link.addEventListener("mouseleave", () => {
-      gsap.to(link, {
-        scale: 1,
-        duration: 0.3,
-      });
-    });
-  });
+(function animCursor() {
+  dx += (cx - dx) * 0.12;
+  dy += (cy - dy) * 0.12;
+  cursor.style.left = dx + 'px';
+  cursor.style.top = dy + 'px';
+  requestAnimationFrame(animCursor);
+})();
 
-  // Menu hamburger
-  const hamburger = document.querySelector(".hamburger");
-  const navLinksContainer = document.querySelector(".nav-links");
+document.querySelectorAll('a, button, .magnetic, .skill-card, .project, .cert-item, .stat, .veille-tool, .ai-tool, .contact-link, .exp-card').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+});
 
-  hamburger.addEventListener("click", () => {
-    hamburger.classList.toggle("active");
-    navLinksContainer.classList.toggle("active");
-  });
+// ══════ PARTICLES ══════
+const cvs = document.getElementById('particles');
+const ctx = cvs.getContext('2d');
+let pts = [], mPos = { x: null, y: null };
 
-  // Effet de parallaxe pour la section hero
-  const heroImage = document.querySelector(".hero-image");
-  if (heroImage) {
-    window.addEventListener("mousemove", (e) => {
-      const x = (window.innerWidth - e.pageX) / 50;
-      const y = (window.innerHeight - e.pageY) / 50;
-      heroImage.style.transform = `translate(${x}px, ${y}px)`;
-    });
+function resize() { cvs.width = innerWidth; cvs.height = innerHeight; }
+resize(); addEventListener('resize', resize);
+document.addEventListener('mousemove', e => { mPos.x = e.clientX; mPos.y = e.clientY; });
+
+class Pt {
+  constructor() { this.init(); }
+  init() {
+    this.x = Math.random() * cvs.width;
+    this.y = Math.random() * cvs.height;
+    this.sz = Math.random() * 1.2 + 0.4;
+    this.vx = (Math.random() - 0.5) * 0.3;
+    this.vy = (Math.random() - 0.5) * 0.3;
+    this.o = Math.random() * 0.4 + 0.1;
   }
-
-  // Matrix Effect
-  const matrixCanvas = document.getElementById("matrixCanvas");
-  if (matrixCanvas) {
-    matrixCanvas.width = window.innerWidth;
-    matrixCanvas.height = window.innerHeight;
-
-    const nom = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*()*&^%";
-
-    const alphabet = nom;
-
-    const fontSize = 16;
-    const columns = matrixCanvas.width / fontSize;
-
-    const rainDrops = [];
-
-    for (let x = 0; x < columns; x++) {
-      rainDrops[x] = 1;
+  update() {
+    this.x += this.vx; this.y += this.vy;
+    if (mPos.x) {
+      const ddx = mPos.x - this.x, ddy = mPos.y - this.y;
+      const d = Math.sqrt(ddx*ddx + ddy*ddy);
+      if (d < 130) { const f = (130 - d) / 130; this.x -= (ddx/d)*f*1.5; this.y -= (ddy/d)*f*1.5; }
     }
+    if (this.x < 0 || this.x > cvs.width) this.vx *= -1;
+    if (this.y < 0 || this.y > cvs.height) this.vy *= -1;
+  }
+  draw() {
+    ctx.beginPath(); ctx.arc(this.x, this.y, this.sz, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(var(--accent-rgb), ${this.o})`.replace('var(--accent-rgb)', '200,255,0');
+    ctx.fill();
+  }
+}
 
-    const draw = () => {
-      const ctx = matrixCanvas.getContext("2d");
-      ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
-      ctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+for (let i = 0; i < 70; i++) pts.push(new Pt());
 
-      ctx.fillStyle = "#0F0";
-      ctx.font = fontSize + "px monospace";
-
-      for (let i = 0; i < rainDrops.length; i++) {
-        const text = alphabet.charAt(
-          Math.floor(Math.random() * alphabet.length)
-        );
-        ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-
-        if (
-          rainDrops[i] * fontSize > matrixCanvas.height &&
-          Math.random() > 0.975
-        ) {
-          rainDrops[i] = 0;
-        }
-        rainDrops[i]++;
+let drawPtsRAF;
+(function drawPts() {
+  ctx.clearRect(0, 0, cvs.width, cvs.height);
+  for (let i = 0; i < pts.length; i++) {
+    pts[i].update(); pts[i].draw();
+    for (let j = i+1; j < pts.length; j++) {
+      const ddx = pts[i].x - pts[j].x, ddy = pts[i].y - pts[j].y;
+      const d = Math.sqrt(ddx*ddx + ddy*ddy);
+      if (d < 110) {
+        ctx.beginPath(); ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(pts[j].x, pts[j].y);
+        ctx.strokeStyle = `rgba(200,255,0,${0.05*(1-d/110)})`;
+        ctx.lineWidth = 0.4; ctx.stroke();
       }
-    };
-
-    setInterval(draw, 30);
+    }
   }
+  drawPtsRAF = requestAnimationFrame(drawPts);
+})();
 
-  // Custom Cursor
-  const cursor = document.createElement("div");
-  cursor.classList.add("custom-cursor");
-  document.body.appendChild(cursor);
+// ══════ SCROLL REVEAL ══════
+const revEls = document.querySelectorAll('.reveal');
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+revEls.forEach(el => revObs.observe(el));
 
-  document.addEventListener("mousemove", (e) => {
-    cursor.style.left = e.clientX + "px";
-    cursor.style.top = e.clientY + "px";
-
-    setTimeout(() => {
-      cursorFollower.style.left = e.clientX + "px";
-      cursorFollower.style.top = e.clientY + "px";
-    }, 100);
+// ══════ MAGNETIC ══════
+document.querySelectorAll('.magnetic').forEach(el => {
+  el.addEventListener('mousemove', e => {
+    const r = el.getBoundingClientRect();
+    const x = e.clientX - r.left - r.width/2;
+    const y = e.clientY - r.top - r.height/2;
+    el.style.transform = `translate(${x*0.15}px, ${y*0.15}px)`;
   });
-
-  document.querySelectorAll("a, button, .project-card").forEach((el) => {
-    el.addEventListener("mouseenter", () => {
-      cursor.classList.add("active");
-      cursorFollower.classList.add("active");
-    });
-    el.addEventListener("mouseleave", () => {
-      cursor.classList.remove("active");
-      cursorFollower.classList.remove("active");
-    });
-  });
-
-  // Radar Chart
-  const radarCtx = document.getElementById("radarChart");
-  if (radarCtx) {
-    new Chart(radarCtx, {
-      type: "radar",
-      data: {
-        labels: ["JavaScript", "HTML", "CSS", "Java", "C++", "Python"],
-        datasets: [
-          {
-            label: "Compétences",
-            data: [70, 80, 80, 55, 35, 90],
-            backgroundColor: "rgba(110, 69, 226, 0.2)",
-            borderColor: "rgba(110, 69, 226, 1)",
-            pointBackgroundColor: "rgba(136, 211, 206, 1)",
-            pointBorderColor: "#fff",
-            pointHoverRadius: 6,
-            pointRadius: 4,
-            borderWidth: 2,
-          },
-        ],
-      },
-      options: {
-        scales: {
-          r: {
-            angleLines: {
-              color: "rgba(255, 255, 255, 0.1)",
-            },
-            grid: {
-              color: "rgba(255, 255, 255, 0.1)",
-            },
-            suggestedMin: 0,
-            suggestedMax: 100,
-            pointLabels: {
-              color: "#e0e0e0",
-              font: {
-                size: 12,
-              },
-            },
-            ticks: {
-              display: false,
-              beginAtZero: true,
-            },
-          },
-        },
-        plugins: {
-          legend: {
-            labels: {
-              color: "#e0e0e0",
-              font: {
-                size: 14,
-              },
-            },
-          },
-        },
-      },
-    });
-  }
+  el.addEventListener('mouseleave', () => { el.style.transform = ''; });
 });
- 
 
-  // Transition fluide entre sections
-  const links = document.querySelectorAll('a[href^="#"]');
-  const transition = document.createElement("div");
-  transition.classList.add("section-transition");
-  document.body.appendChild(transition);
+// ══════ CARD GLOW ══════
+document.querySelectorAll('.stat, .project, .skill-card').forEach(c => {
+  c.addEventListener('mousemove', e => {
+    const r = c.getBoundingClientRect();
+    c.style.setProperty('--mx', ((e.clientX-r.left)/r.width*100)+'%');
+    c.style.setProperty('--my', ((e.clientY-r.top)/r.height*100)+'%');
+  });
+});
 
-  links.forEach((link) => {
-    link.addEventListener("click", (e) => {
-      const targetId = link.getAttribute("href");
-      if (targetId === "#") return;
+// ══════ TEXT SCRAMBLE ══════
+document.querySelectorAll('.project-name, .skill-card-name, .tl-title').forEach(el => {
+  const orig = el.textContent;
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%';
+  let iv;
+  el.addEventListener('mouseenter', () => {
+    let iter = 0; clearInterval(iv);
+    iv = setInterval(() => {
+      el.textContent = orig.split('').map((c,i) => i < iter ? orig[i] : chars[Math.floor(Math.random()*chars.length)]).join('');
+      if (iter >= orig.length) clearInterval(iv);
+      iter += 0.5;
+    }, 25);
+  });
+  el.addEventListener('mouseleave', () => { clearInterval(iv); el.textContent = orig; });
+});
 
-      e.preventDefault();
+// ══════ TILT ON PROJECT CARDS ══════
+document.querySelectorAll('.project').forEach(c => {
+  c.addEventListener('mousemove', e => {
+    const r = c.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    c.style.transform = `perspective(1200px) rotateX(${-y*4}deg) rotateY(${x*4}deg) translateY(-3px)`;
+  });
+  c.addEventListener('mouseleave', () => { c.style.transform = ''; });
+});
 
-      const target = document.querySelector(targetId);
-      if (!target) return;
+// ══════ PARALLAX ORBS ══════
+addEventListener('scroll', () => {
+  const s = scrollY;
+  document.querySelectorAll('.hero-orb').forEach((o,i) => {
+    o.style.transform = `translateY(${s*(i+1)*0.12}px)`;
+  });
+});
 
-      transition.classList.add("active");
+// ══════ INSANE NAV WARP TRANSITION ══════
+const navTrans = document.getElementById('navTransition');
+const warpFlash = document.getElementById('warpFlash');
+const warpRing = document.getElementById('warpRing');
+const speedLinesEl = document.getElementById('speedLines');
+const warpParticlesEl = document.getElementById('warpParticles');
+const warpVignette = document.getElementById('warpVignette');
+let isWarping = false;
 
-      setTimeout(() => {
-        window.scrollTo({
-          top: target.offsetTop,
-          behavior: "smooth",
-        });
-      }, 100);
+function createSpeedLines() {
+  speedLinesEl.innerHTML = '';
+  for (let i = 0; i < 30; i++) {
+    const line = document.createElement('div');
+    line.classList.add('speed-line');
+    const angle = (i / 30) * 360;
+    line.style.transform = `rotate(${angle}deg)`;
+    line.style.animationDelay = `${Math.random() * 0.15}s`;
+    line.style.width = `${Math.random() * 1.5 + 1}px`;
+    line.style.background = `linear-gradient(to bottom, transparent, ${
+      Math.random() > 0.6 ? 'var(--accent2)' : Math.random() > 0.3 ? 'var(--accent)' : 'var(--accent3)'
+    }, transparent)`;
+    speedLinesEl.appendChild(line);
+  }
+}
 
-      setTimeout(() => {
-        transition.classList.remove("active");
-      }, 800);
-    });
+function createWarpParticles() {
+  warpParticlesEl.innerHTML = '';
+  for (let i = 0; i < 40; i++) {
+    const p = document.createElement('div');
+    p.classList.add('warp-particle');
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 100 + Math.random() * 400;
+    p.style.setProperty('--px', `${Math.cos(angle) * dist}px`);
+    p.style.setProperty('--py', `${Math.sin(angle) * dist}px`);
+    p.style.animationDelay = `${Math.random() * 0.2}s`;
+    p.style.width = `${Math.random() * 4 + 1}px`;
+    p.style.height = p.style.width;
+    const colors = ['var(--accent)', 'var(--accent2)', 'var(--accent3)', 'var(--fg)'];
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    warpParticlesEl.appendChild(p);
+  }
+}
+
+function createGlitchBars() {
+  const existing = navTrans.querySelectorAll('.glitch-bar');
+  existing.forEach(b => b.remove());
+  for (let i = 0; i < 8; i++) {
+    const bar = document.createElement('div');
+    bar.classList.add('glitch-bar');
+    bar.style.top = `${Math.random() * 100}%`;
+    bar.style.height = `${Math.random() * 3 + 1}px`;
+    bar.style.animationDelay = `${Math.random() * 0.3}s`;
+    const colors = ['var(--accent)', 'var(--accent2)', 'var(--accent3)'];
+    bar.style.background = colors[Math.floor(Math.random() * colors.length)];
+    navTrans.appendChild(bar);
+  }
+}
+
+function triggerWarp(targetEl) {
+  if (isWarping) return;
+  isWarping = true;
+
+  // Setup
+  createSpeedLines();
+  createWarpParticles();
+  createGlitchBars();
+
+  navTrans.classList.add('active');
+
+  // Body distort
+  document.body.classList.add('body-warp');
+
+  // Trigger all animations
+  warpFlash.classList.add('animate');
+  warpRing.classList.add('animate');
+  speedLinesEl.classList.add('animate');
+  speedLinesEl.querySelectorAll('.speed-line').forEach(l => l.classList.add('animate'));
+  warpParticlesEl.querySelectorAll('.warp-particle').forEach(p => p.classList.add('animate'));
+  warpVignette.classList.add('animate');
+  navTrans.querySelectorAll('.glitch-bar').forEach(b => b.classList.add('animate'));
+
+  // Scroll at the peak of the vignette (when screen is black)
+  setTimeout(() => {
+    // Instant scroll (no smooth, we handle the animation ourselves)
+    const targetY = targetEl.getBoundingClientRect().top + window.scrollY - 80;
+    window.scrollTo({ top: targetY, behavior: 'instant' });
+
+    // Reveal the target section with a cinematic entrance
+    targetEl.classList.add('section-warp-reveal');
+
+    // Make sure reveals inside target fire
+    targetEl.querySelectorAll('.reveal').forEach(r => r.classList.add('visible'));
+  }, 320);
+
+  // Cleanup
+  setTimeout(() => {
+    navTrans.classList.remove('active');
+    document.body.classList.remove('body-warp');
+
+    [warpFlash, warpRing, speedLinesEl, warpVignette].forEach(el => el.classList.remove('animate'));
+    speedLinesEl.querySelectorAll('.speed-line').forEach(l => l.classList.remove('animate'));
+    warpParticlesEl.querySelectorAll('.warp-particle').forEach(p => p.classList.remove('animate'));
+    navTrans.querySelectorAll('.glitch-bar').forEach(b => b.remove());
+
+    targetEl.classList.remove('section-warp-reveal');
+
+    isWarping = false;
+  }, 1000);
+}
+
+// Attach to all nav links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) triggerWarp(target);
+  });
+});
+
+// ══════ LANGUAGE TOGGLE FR/EN ══════
+let currentLang = 'fr';
+const langBtn = document.getElementById('langToggle');
+
+langBtn.addEventListener('click', () => {
+  currentLang = currentLang === 'fr' ? 'en' : 'fr';
+  document.documentElement.setAttribute('data-lang', currentLang);
+
+  document.querySelectorAll('[data-fr][data-en]').forEach(el => {
+    const val = el.getAttribute(`data-${currentLang}`);
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      el.placeholder = val;
+    } else {
+      el.innerHTML = val;
+    }
   });
 
-  // Mise à jour des points de navigation spatiale
-  const spaceDots = document.querySelectorAll(".space-dot");
+  langBtn.textContent = currentLang === 'fr' ? 'EN' : 'FR';
+  document.documentElement.lang = currentLang;
+});
 
-  function updateSpaceNav() {
-    const scrollPosition = window.scrollY;
+// ══════ INSANE THEME TOGGLE ══════
+const themeToggleBtn = document.getElementById('themeToggle');
+const themeOverlay = document.getElementById('themeOverlay');
+const themeRaysEl = document.getElementById('themeRays');
+let currentTheme = 'dark';
+let isThemeAnimating = false;
 
-    document.querySelectorAll("section").forEach((section) => {
-      const sectionTop = section.offsetTop - 100;
-      const sectionHeight = section.offsetHeight;
-      const sectionId = section.getAttribute("id");
+function createThemeRays(x, y, isLight) {
+  themeRaysEl.innerHTML = '';
+  themeRaysEl.style.left = x + 'px';
+  themeRaysEl.style.top = y + 'px';
+  const count = 16;
+  for (let i = 0; i < count; i++) {
+    const ray = document.createElement('div');
+    ray.classList.add('theme-ray');
+    const angle = (i / count) * 360;
+    ray.style.transformOrigin = 'bottom center';
+    ray.style.left = '0px';
+    ray.style.top = '0px';
+    ray.style.transform = `rotate(${angle}deg)`;
+    ray.style.animationDelay = `${Math.random() * 0.1}s`;
+    ray.style.background = isLight
+      ? `linear-gradient(to top, transparent, ${['#5d00e6','#0075ff','#e6003a'][i%3]}, transparent)`
+      : `linear-gradient(to top, transparent, ${['#c8ff00','#00f0ff','#ff3366'][i%3]}, transparent)`;
+    themeRaysEl.appendChild(ray);
+    requestAnimationFrame(() => ray.classList.add('animate'));
+  }
+}
 
-      if (
-        scrollPosition >= sectionTop &&
-        scrollPosition < sectionTop + sectionHeight
-      ) {
-        spaceDots.forEach((dot) => {
-          dot.classList.remove("active");
-          if (dot.getAttribute("href") === `#${sectionId}`) {
-            dot.classList.add("active");
-          }
-        });
+function updateParticleColors() {
+  // Particles will naturally use the new colors on next draw
+  // We update their opacity for light mode
+  const isLight = currentTheme === 'light';
+  pts.forEach(p => {
+    p.o = isLight ? Math.random() * 0.3 + 0.05 : Math.random() * 0.4 + 0.1;
+  });
+}
+
+themeToggleBtn.addEventListener('click', (e) => {
+  if (isThemeAnimating) return;
+  isThemeAnimating = true;
+
+  const rect = themeToggleBtn.getBoundingClientRect();
+  const btnX = rect.left + rect.width / 2;
+  const btnY = rect.top + rect.height / 2;
+
+  const goingLight = currentTheme === 'dark';
+
+  // Position the overlay at button
+  themeOverlay.style.left = btnX + 'px';
+  themeOverlay.style.top = btnY + 'px';
+  themeOverlay.style.background = goingLight ? '#f5f3ee' : '#060608';
+
+  // Remove old classes
+  themeOverlay.classList.remove('expanding', 'collapsing');
+
+  // Create rays from button
+  createThemeRays(btnX, btnY, goingLight);
+
+  // Flash the button
+  themeToggleBtn.style.transform = 'scale(1.3)';
+  themeToggleBtn.style.boxShadow = goingLight
+    ? '0 0 40px rgba(93,0,230,0.5)'
+    : '0 0 40px rgba(200,255,0,0.5)';
+
+  setTimeout(() => {
+    themeToggleBtn.style.transform = '';
+    themeToggleBtn.style.boxShadow = '';
+  }, 300);
+
+  // Start expanding circle
+  requestAnimationFrame(() => {
+    themeOverlay.classList.add('expanding');
+  });
+
+  // At peak, switch the theme
+  setTimeout(() => {
+    currentTheme = goingLight ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    updateParticleColors();
+  }, 300);
+
+  // Collapse and cleanup
+  setTimeout(() => {
+    themeOverlay.classList.remove('expanding');
+    themeOverlay.classList.add('collapsing');
+  }, 550);
+
+  setTimeout(() => {
+    themeOverlay.classList.remove('collapsing');
+    themeOverlay.style.width = '0';
+    themeOverlay.style.height = '0';
+    themeRaysEl.innerHTML = '';
+    isThemeAnimating = false;
+  }, 1050);
+});
+
+// Override particle draw colors based on theme
+const origDraw = Pt.prototype.draw;
+Pt.prototype.draw = function() {
+  ctx.beginPath();
+  ctx.arc(this.x, this.y, this.sz, 0, Math.PI * 2);
+  const isLight = currentTheme === 'light';
+  ctx.fillStyle = isLight
+    ? `rgba(93,0,230,${this.o})`
+    : `rgba(200,255,0,${this.o})`;
+  ctx.fill();
+};
+
+// Override particle line colors
+const origDrawPts = drawPts;
+// We need to patch the line drawing — let's replace the animation loop
+// Stop old loop and create new one
+cancelAnimationFrame(drawPtsRAF);
+
+let drawPtsRAF2;
+(function drawPtsLoop() {
+  ctx.clearRect(0, 0, cvs.width, cvs.height);
+  const isLight = currentTheme === 'light';
+  const lineColor = isLight ? '93,0,230' : '200,255,0';
+  for (let i = 0; i < pts.length; i++) {
+    pts[i].update(); pts[i].draw();
+    for (let j = i+1; j < pts.length; j++) {
+      const ddx = pts[i].x - pts[j].x, ddy = pts[i].y - pts[j].y;
+      const d = Math.sqrt(ddx*ddx + ddy*ddy);
+      if (d < 110) {
+        ctx.beginPath(); ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(pts[j].x, pts[j].y);
+        ctx.strokeStyle = `rgba(${lineColor},${0.05*(1-d/110)})`;
+        ctx.lineWidth = 0.4; ctx.stroke();
       }
-    });
+    }
   }
-
-  window.addEventListener("scroll", updateSpaceNav);
-  updateSpaceNav();
-
-  // Mise à jour de l'année dans le footer
-  const yearElement = document.getElementById("year");
-  if (yearElement) {
-    yearElement.textContent = new Date().getFullYear();
-  }
-
-  // Chargement personnalisé
-  const loader = document.querySelector(".loader");
-  if (loader) {
-    const spheres = document.querySelectorAll(".loader-sphere");
-
-    // Animation des sphères
-    gsap.to(spheres, {
-      duration: 2,
-      scale: 1.5,
-      opacity: 0.7,
-      yoyo: true,
-      repeat: -1,
-      stagger: 0.2,
-      ease: "sine.inOut",
-    });
-
-    // Cacher le loader quand tout est chargé
-    window.addEventListener("load", () => {
-      gsap.to(loader, {
-        duration: 0.8,
-        opacity: 0,
-        onComplete: () => {
-          loader.style.display = "none";
-        },
-      });
-    });
-  }
-
-// Animation des barres de compétences principales
-function animateMainSkills() {
-    const skillBars = document.querySelectorAll('.skills-list .bar');
-    
-    skillBars.forEach((bar, index) => {
-        // Réinitialiser à 0
-        bar.style.width = '0';
-        
-        // Animer avec un délai progressif
-        setTimeout(() => {
-            const width = bar.getAttribute('data-width') || bar.style.width;
-            bar.style.width = width;
-        }, 300 + index * 200);
-    });
-}
-
-// Animation des barres de compétences dans la modal
-function animateSkillsModalBars() {
-    const skillBars = skillsModal.querySelectorAll('.bar');
-    
-    // Réinitialiser toutes les barres à 0
-    skillBars.forEach(bar => {
-        bar.style.width = '0';
-    });
-    
-    // Animer chaque barre avec un délai progressif
-    skillBars.forEach((bar, index) => {
-        setTimeout(() => {
-            const width = bar.getAttribute('data-width') || bar.style.width;
-            bar.style.width = width;
-        }, 200 + index * 150);
-    });
-}
-
-// Initialiser les largeurs des barres au chargement
-document.addEventListener('DOMContentLoaded', function() {
-    // Stocker les largeurs originales pour les barres principales
-    const mainSkillBars = document.querySelectorAll('.skills-list .bar');
-    mainSkillBars.forEach(bar => {
-        const width = bar.style.width;
-        bar.setAttribute('data-width', width);
-        bar.style.width = '0';
-    });
-});
-
-// Gestion de la modal des compétences supplémentaires
-const skillsModal = document.getElementById("skillsModal");
-const showMoreSkillsBtn = document.getElementById("showMoreSkillsBtn");
-const closeSkillsModal = skillsModal.querySelector(".close-modal");
-
-// Ouvrir la modal
-showMoreSkillsBtn.addEventListener('click', () => {
-    skillsModal.style.display = 'block';
-    document.body.style.overflow = 'hidden';
-    
-    // Lancer l'animation après un court délai pour que la modal soit visible
-    setTimeout(() => {
-        animateSkillsModalBars();
-    }, 100);
-});
-
-// Fermer la modal
-closeSkillsModal.addEventListener('click', () => {
-    skillsModal.style.display = 'none';
-    document.body.style.overflow = 'auto';
-});
-
-// Fermer en cliquant à l'extérieur
-window.addEventListener('click', (e) => {
-    if (e.target === skillsModal) {
-        skillsModal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
-});
-
-
-
-// Effet de parallaxe avancé
-const parallaxElements = document.querySelectorAll("[data-parallax]");
-
-window.addEventListener("scroll", () => {
-  const scrollY = window.scrollY;
-
-  parallaxElements.forEach((el) => {
-    const speed = parseFloat(el.getAttribute("data-parallax"));
-    const offset = scrollY * speed;
-
-    gsap.to(el, {
-      y: offset,
-      ease: "none",
-    });
-  });
-});
-
-// Données des projets
-const projectsData = [
-  {
-    title: "Projet...",
-    tech: "HTML/CSS",
-    description:
-      "Ce projet est une réalisation personnelle qui démontre mes compétences en développement front-end. J'ai créé une interface utilisateur moderne et réactive en utilisant les dernières technologies web.",
-    details: [
-      "Design responsive adapté à tous les appareils",
-      "Animations CSS personnalisées",
-      "Optimisation des performances",
-      "Code propre et bien documenté",
-    ],
-    image: "/images/project1.jpg",
-    link: "#",
-  },
-  {
-    title: "Site BST79",
-    tech: "Wordpress",
-    description:
-      "Site web développé avec Wordpress pour un client local. Le site présente les services de l'entreprise et permet aux clients de prendre rendez-vous en ligne.",
-    details: [
-      "Thème personnalisé développé sur mesure",
-      "Intégration de formulaire de contact",
-      "Optimisation SEO",
-      "Backoffice personnalisé pour le client",
-    ],
-    image: "/images/project2.jpg",
-    link: "#",
-  },
-  {
-    title: "Site Web Créatif",
-    tech: "HTML/CSS, JavaScript",
-    description:
-      "Un site web avec des effets visuels avancés et des interactions utilisateur uniques. Ce projet montre ma capacité à créer des expériences web innovantes.",
-    details: [
-      "Effets de parallaxe avancés",
-      "Animations GSAP",
-      "Mode sombre/clair",
-      "Design original et créatif",
-    ],
-    image: "/images/project3.jpg",
-    link: "#",
-  },
-  {
-    title: "Application Web",
-    tech: "React, Node.js",
-    description:
-      "Application web complète avec frontend en React et backend en Node.js. Cette application permet aux utilisateurs de gérer leurs tâches quotidiennes.",
-    details: [
-      "Authentification utilisateur",
-      "Base de données MongoDB",
-      "API RESTful",
-      "Interface drag-and-drop",
-    ],
-    image: "/images/project4.jpg",
-    link: "#",
-  },
-  {
-    title: "Jeu en Ligne",
-    tech: "JavaScript, Canvas",
-    description:
-      "Jeu développé en pur JavaScript utilisant l'API Canvas. Un projet amusant qui montre mes compétences en programmation algorithmique.",
-    details: [
-      "Moteur de jeu personnalisé",
-      "Effets visuels optimisés",
-      "Système de score en ligne",
-      "Contrôles tactiles pour mobile",
-    ],
-    image: "/images/project5.jpg",
-    link: "#",
-  },
-  {
-    title: "Dashboard Admin",
-    tech: "Vue.js, Firebase",
-    description:
-      "Tableau de bord administratif pour gérer les utilisateurs et le contenu d'une application web. Développé avec Vue.js et connecté à Firebase.",
-    details: [
-      "Visualisation de données en temps réel",
-      "Gestion des utilisateurs",
-      "Export de données en CSV",
-      "Notifications en temps réel",
-    ],
-    image: "/images/project6.jpg",
-    link: "#",
-  },
-];
-
-// Modal pour les projets
-const modal = document.getElementById("projectModal");
-const modalTitle = document.getElementById("modalProjectTitle");
-const modalTech = document.getElementById("modalProjectTech");
-const modalDescription = document.getElementById("modalProjectDescription");
-const modalDetails = document.getElementById("modalProjectDetails");
-const modalImage = document.getElementById("modalProjectImage");
-const modalLink = document.getElementById("modalProjectLink");
-const closeModal = document.querySelector(".close-modal");
-
-// Ouvrir la modal
-document.querySelectorAll(".project-card .btn-small").forEach((btn, index) => {
-  btn.addEventListener("click", (e) => {
-    e.preventDefault();
-    const project = projectsData[index];
-    showProjectModal(project);
-  });
-});
-
-// Fonction pour afficher la modal
-function showProjectModal(project) {
-  modalTitle.textContent = project.title;
-  modalTech.textContent = `Technologies: ${project.tech}`;
-  modalDescription.textContent = project.description;
-  modalImage.src = project.image;
-  modalImage.alt = project.title;
-  modalLink.href = project.link;
-
-  // Effacer les détails précédents
-  modalDetails.innerHTML = "";
-
-  // Ajouter les nouveaux détails
-  project.details.forEach((detail) => {
-    const li = document.createElement("li");
-    li.textContent = detail;
-    modalDetails.appendChild(li);
-  });
-
-  // Afficher la modal
-  modal.style.display = "block";
-  document.body.style.overflow = "hidden";
-}
-
-// Fermer la modal
-closeModal.addEventListener("click", () => {
-  modal.style.display = "none";
-  document.body.style.overflow = "auto";
-});
-
-// Fermer la modal en cliquant à l'extérieur
-window.addEventListener("click", (e) => {
-  if (e.target === modal) {
-    modal.style.display = "none";
-    document.body.style.overflow = "auto";
-  }
-});
-
-// Charger plus de projets
-const loadMoreBtn = document.getElementById("loadMoreBtn");
-const showLessBtn = document.getElementById("showLessBtn");
-const moreProjectsSection = document.getElementById("moreProjects");
-const moreProjectsGrid = moreProjectsSection.querySelector(".projects-grid");
-
-loadMoreBtn.addEventListener("click", () => {
-  // Afficher les projets supplémentaires
-  moreProjectsSection.style.display = "block";
-
-  // Remplir avec les projets supplémentaires (index 3 à 5)
-  moreProjectsGrid.innerHTML = "";
-  for (let i = 3; i < projectsData.length; i++) {
-    const project = projectsData[i];
-    const projectCard = createProjectCard(project, i);
-    moreProjectsGrid.appendChild(projectCard);
-  }
-
-  // Cacher le bouton "Voir plus"
-  loadMoreBtn.style.display = "none";
-});
-
-showLessBtn.addEventListener("click", () => {
-  // Cacher les projets supplémentaires
-  moreProjectsSection.style.display = "none";
-
-  // Afficher le bouton "Voir plus"
-  loadMoreBtn.style.display = "inline-block";
-});
-
-// Fonction pour créer une carte de projet
-function createProjectCard(project, index) {
-  const card = document.createElement("div");
-  card.className = "project-card hologram";
-  card.setAttribute("data-aos", "fade-up");
-  card.setAttribute("data-aos-delay", ((index % 3) + 2) * 100);
-
-  card.innerHTML = `
-            <div class="hologram-content">
-                <h3>${project.title}</h3>
-                <p>Technologies: ${project.tech}</p>
-                <a href="#" class="btn btn-small">Voir plus</a>
-            </div>
-            <div class="hologram-light"></div>
-            <div class="hologram-grid"></div>
-        `;
-
-  // Ajouter l'événement click au nouveau bouton "Voir plus"
-  card.querySelector(".btn-small").addEventListener("click", (e) => {
-    e.preventDefault();
-    showProjectModal(project);
-  });
-
-  return card;
-}
-showLessBtn.addEventListener("click", () => {
-  // Animation pour faire disparaître les projets
-  gsap.to(moreProjectsSection, {
-    duration: 0.7,
-    opacity: 0,
-    height: 0,
-    padding: 0,
-    margin: 0,
-    ease: "power2.inOut",
-    onComplete: () => {
-      moreProjectsSection.style.display = "none";
-      // Réinitialiser les styles après l'animation
-      gsap.set(moreProjectsSection, {
-        clearProps: "all",
-      });
-    },
-  });
-
-  // Animation du bouton "Voir plus" qui réapparaît
-  gsap.fromTo(
-    loadMoreBtn,
-    { opacity: 0, y: 20, scale: 0.8 },
-    {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      duration: 0.5,
-      delay: 0.4,
-      ease: "back.out(1.7)",
-    }
-  );
-  loadMoreBtn.style.display = "inline-block";
-});
-
-// Ajoutez cette fonction pour animer le background
-function animateBackground() {
-    const background = document.querySelector('.matrix-grid');
-    if (background) {
-        gsap.to(background, {
-            duration: 30,
-            backgroundPosition: '200px 200px',
-            repeat: -1,
-            ease: 'none',
-            yoyo: true
-        });
-    }
-}
-
-// Gestion du responsive
-function handleResponsive() {
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
-    
-    // Désactiver certains effets sur mobile
-    if (screenWidth <= 768) {
-        // Désactiver le parallaxe sur mobile
-        if (heroImage) {
-            heroImage.style.transform = 'none';
-        }
-        
-        // Simplifier les animations
-        AOS.init({
-            duration: 400,
-            once: true
-        });
-    } else {
-        // Réactiver pour les grands écrans
-        AOS.init({
-            duration: 800,
-            once: false
-        });
-    }
-    
-    // Ajuster le canvas Matrix pour les petits écrans
-    if (matrixCanvas) {
-        matrixCanvas.width = screenWidth;
-        matrixCanvas.height = Math.min(screenHeight, 800);
-    }
-}
-
-// Écouter le redimensionnement
-window.addEventListener('resize', handleResponsive);
-window.addEventListener('load', handleResponsive);
-
-// Appeler une fois au chargement
-handleResponsive();
-
-// Gestion du responsive améliorée
-function handleResponsive() {
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
-    
-    // Désactiver certains effets sur mobile
-    if (screenWidth <= 767) {
-        // Désactiver le parallaxe sur mobile
-        if (heroImage) {
-            heroImage.style.transform = 'none';
-            window.removeEventListener('mousemove', parallaxHandler);
-        }
-        
-        // Désactiver le curseur personnalisé
-        if (cursor) cursor.style.display = 'none';
-        if (cursorFollower) cursorFollower.style.display = 'none';
-        
-        // Simplifier AOS
-        AOS.init({
-            duration: 400,
-            once: true,
-            disable: function() {
-                return screenWidth <= 767;
-            }
-        });
-        
-        // Ajuster le canvas Matrix
-        if (matrixCanvas) {
-            matrixCanvas.style.display = 'none';
-        }
-        
-    } else {
-        // Réactiver pour les grands écrans
-        if (heroImage) {
-            window.addEventListener('mousemove', parallaxHandler);
-        }
-        
-        if (cursor) cursor.style.display = 'block';
-        if (cursorFollower) cursorFollower.style.display = 'block';
-        
-        AOS.init({
-            duration: 800,
-            once: false
-        });
-        
-        if (matrixCanvas) {
-            matrixCanvas.style.display = 'block';
-            matrixCanvas.width = screenWidth;
-            matrixCanvas.height = Math.min(screenHeight, 800);
-        }
-    }
-    
-    // Gestion spécifique pour les très petits écrans
-    if (screenWidth <= 480) {
-        document.body.classList.add('mobile-small');
-    } else {
-        document.body.classList.remove('mobile-small');
-    }
-    
-    // Gestion de l'orientation paysage
-    if (screenHeight <= 500 && screenWidth <= 767) {
-        document.body.classList.add('landscape-mobile');
-    } else {
-        document.body.classList.remove('landscape-mobile');
-    }
-}
-
-// Handler pour le parallaxe
-function parallaxHandler(e) {
-    if (window.innerWidth > 767 && heroImage) {
-        const x = (window.innerWidth - e.pageX) / 50;
-        const y = (window.innerHeight - e.pageY) / 50;
-        heroImage.style.transform = `translate(${x}px, ${y}px)`;
-    }
-}
-
-// Réinitialiser au redimensionnement
-let resizeTimeout;
-window.addEventListener('resize', function() {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(handleResponsive, 250);
-});
-
-// Gestion du menu hamburger améliorée
-hamburger.addEventListener('click', function() {
-    this.classList.toggle('active');
-    navLinksContainer.classList.toggle('active');
-    
-    // Empêcher le scroll quand le menu est ouvert
-    if (navLinksContainer.classList.contains('active')) {
-        document.body.style.overflow = 'hidden';
-    } else {
-        document.body.style.overflow = 'auto';
-    }
-});
-
-// Fermer le menu en cliquant sur un lien
-navLinks.forEach(link => {
-    link.addEventListener('click', function() {
-        if (window.innerWidth <= 767) {
-            hamburger.classList.remove('active');
-            navLinksContainer.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-    });
-});
-
-function updateSpaceNav() {
-    const scrollPosition = window.scrollY;
-
-    document.querySelectorAll("section").forEach((section) => {
-        const sectionTop = section.offsetTop - 100;
-        const sectionHeight = section.offsetHeight;
-        const sectionId = section.getAttribute("id");
-
-        if (
-            scrollPosition >= sectionTop &&
-            scrollPosition < sectionTop + sectionHeight
-        ) {
-            spaceDots.forEach((dot) => {
-                dot.classList.remove("active");
-                if (dot.getAttribute("href") === `#${sectionId}`) {
-                    dot.classList.add("active");
-                }
-            });
-        }
-    });
-}
-
-// Animation des cartes veille au scroll
-function animateVeilleCards() {
-    const veilleCards = document.querySelectorAll('.veille-card');
-    
-    veilleCards.forEach((card, index) => {
-        const cardTop = card.getBoundingClientRect().top;
-        const windowHeight = window.innerHeight;
-        
-        if (cardTop < windowHeight - 100) {
-            setTimeout(() => {
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            }, index * 200);
-        }
-    });
-}
-
-// Initialiser l'animation
-document.addEventListener('DOMContentLoaded', function() {
-    const veilleCards = document.querySelectorAll('.veille-card');
-    veilleCards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = 'all 0.6s ease';
-    });
-    
-    window.addEventListener('scroll', animateVeilleCards);
-    animateVeilleCards(); // Appeler une fois au chargement
-});
+  drawPtsRAF2 = requestAnimationFrame(drawPtsLoop);
+})();

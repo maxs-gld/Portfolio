@@ -1,503 +1,665 @@
 <!DOCTYPE html>
-<html lang="fr">
-
+<html lang="fr" data-lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-    <title>Gaillard Maxence | Portfolio</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;600&display=swap"
-        rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maxence Gaillard — Développeur Web & Logiciel</title>
+<meta name="description" content="Portfolio de Maxence Gaillard — Développeur Web & Logiciel, étudiant BTS SIO SLAM. Recherche alternance.">
+<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
 </head>
+<body>
 
-<body class="dark-theme">
-    <!-- Effets Visuels background-->
-    <div class="matrix-grid"></div>
-    <div class="light-sweep"></div>
-    <!-- Loader -->
-    <div class="loader">
-        <div class="loader-inner">
-            <div class="loader-sphere"></div>
-            <div class="loader-sphere"></div>
-            <div class="loader-sphere"></div>
-            <div class="loader-sphere"></div>
-            <div class="loader-sphere"></div>
+<!-- ═══ PRELOADER ═══ -->
+<div class="preloader" id="preloader">
+  <div class="preloader-initials"><span>M</span><span>G</span></div>
+  <div class="preloader-line"></div>
+  <div class="preloader-counter" id="preloaderCount">loading...</div>
+</div>
+
+<!-- ═══ OVERLAYS ═══ -->
+<div class="noise"></div>
+<div class="grid-overlay"></div>
+<canvas id="particles"></canvas>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- ═══ NAV WARP TRANSITION ═══ -->
+<div class="nav-transition" id="navTransition">
+  <div class="warp-flash" id="warpFlash"></div>
+  <div class="warp-ring" id="warpRing"></div>
+  <div class="speed-lines" id="speedLines"></div>
+  <div class="warp-particles" id="warpParticles"></div>
+  <div class="warp-vignette" id="warpVignette"></div>
+</div>
+
+<!-- ═══ NAVIGATION ═══ -->
+<nav>
+  <div class="nav-logo magnetic">MG<span class="dot">.</span></div>
+  <ul class="nav-center">
+    <li><a href="#about" class="magnetic" data-fr="À propos" data-en="About">À propos</a></li>
+    <li><a href="#skills" class="magnetic" data-fr="Compétences" data-en="Skills">Compétences</a></li>
+    <li><a href="#parcours" class="magnetic" data-fr="Parcours" data-en="Journey">Parcours</a></li>
+    <li><a href="#projects" class="magnetic" data-fr="Projets" data-en="Projects">Projets</a></li>
+    <li><a href="#veille" class="magnetic" data-fr="Veille" data-en="Tech Watch">Veille</a></li>
+    <li><a href="#contact" class="magnetic" data-fr="Contact" data-en="Contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="lang-toggle magnetic" id="langToggle" data-fr="EN" data-en="FR">EN</button>
+    <button class="theme-toggle magnetic" id="themeToggle" aria-label="Toggle theme">
+      <i class="fas fa-moon icon-moon"></i>
+      <i class="fas fa-sun icon-sun"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- Theme transition overlay -->
+<div class="theme-transition-overlay" id="themeOverlay"></div>
+<div class="theme-rays" id="themeRays"></div>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-orb orb3"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <div class="pulse"></div>
+      <span data-fr="Recherche alternance — Développement Web & Logiciel" data-en="Seeking apprenticeship — Web & Software Development">Recherche alternance — Développement Web & Logiciel</span>
+    </div>
+    <h1 class="hero-name">
+      <span class="line"><span>MAXENCE</span></span>
+      <span class="line"><span class="accent-text">GAILLARD</span></span>
+    </h1>
+    <p class="hero-sub" data-fr="Étudiant BTS SIO SLAM passionné par la création d'expériences numériques — du développement web aux applications mobiles." data-en="BTS SIO SLAM student passionate about creating digital experiences — from web development to mobile applications.">Étudiant BTS SIO SLAM passionné par la création d'expériences numériques — du développement web aux applications mobiles.</p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary magnetic" data-fr="Voir mes projets →" data-en="View my projects →">Voir mes projets →</a>
+      <a href="CV_Maxence_Gaillard_Alternance.pdf" download class="btn-secondary magnetic" data-fr="<i class='fas fa-download'></i> Télécharger mon CV" data-en="<i class='fas fa-download'></i> Download my CV"><i class="fas fa-download"></i> Télécharger mon CV</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span data-fr="Scroll" data-en="Scroll">Scroll</span>
+    <div class="line"></div>
+  </div>
+</section>
+
+<!-- ═══ MARQUEE ═══ -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>HTML</span><span class="dot">✦</span>
+    <span>CSS</span><span class="dot">✦</span>
+    <span>PHP</span><span class="dot">✦</span>
+    <span>JAVASCRIPT</span><span class="dot">✦</span>
+    <span>JAVA</span><span class="dot">✦</span>
+    <span>PYTHON</span><span class="dot">✦</span>
+    <span>SQL</span><span class="dot">✦</span>
+    <span>SYMFONY</span><span class="dot">✦</span>
+    <span>ANDROID</span><span class="dot">✦</span>
+    <span>C++</span><span class="dot">✦</span>
+    <span>GIT</span><span class="dot">✦</span>
+    <span>LINUX</span><span class="dot">✦</span>
+    <span>HTML</span><span class="dot">✦</span>
+    <span>CSS</span><span class="dot">✦</span>
+    <span>PHP</span><span class="dot">✦</span>
+    <span>JAVASCRIPT</span><span class="dot">✦</span>
+    <span>JAVA</span><span class="dot">✦</span>
+    <span>PYTHON</span><span class="dot">✦</span>
+    <span>SQL</span><span class="dot">✦</span>
+    <span>SYMFONY</span><span class="dot">✦</span>
+    <span>ANDROID</span><span class="dot">✦</span>
+    <span>C++</span><span class="dot">✦</span>
+    <span>GIT</span><span class="dot">✦</span>
+    <span>LINUX</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about" class="section">
+  <div class="section-header reveal">
+    <div class="section-label" data-fr="01 — À propos" data-en="01 — About">01 — À propos</div>
+    <h2 class="section-title" data-fr="Coder aujourd'hui,<br>construire demain." data-en="Code today,<br>build tomorrow.">Coder aujourd'hui,<br>construire demain.</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p data-fr="Je suis <strong>Maxence Gaillard</strong>, 19 ans, développeur web & logiciel basé à <strong>Angers</strong>. Passionné par le code depuis la Première Générale, j'ai transformé cette passion en vocation au sein du <strong>BTS SIO SLAM</strong> à l'ESUPEC de Cholet." data-en="I'm <strong>Maxence Gaillard</strong>, 19, a web & software developer based in <strong>Angers, France</strong>. Passionate about coding since high school, I turned this passion into a vocation in the <strong>BTS SIO SLAM</strong> program at ESUPEC, Cholet.">Je suis <strong>Maxence Gaillard</strong>, 19 ans, développeur web & logiciel basé à <strong>Angers</strong>. Passionné par le code depuis la Première Générale, j'ai transformé cette passion en vocation au sein du <strong>BTS SIO SLAM</strong> à l'ESUPEC de Cholet.</p>
+      <p data-fr="De la conception de scripts de monitoring en entreprise au développement d'applications Android from scratch, chaque projet est une opportunité d'apprendre et de repousser mes limites. Je recherche actuellement une <strong>alternance en développement web & logiciel</strong> pour continuer à progresser au contact de professionnels." data-en="From designing monitoring scripts in production environments to developing Android applications from scratch, every project is an opportunity to learn and push my limits. I'm currently seeking an <strong>apprenticeship in web & software development</strong> to keep growing alongside professionals.">De la conception de scripts de monitoring en entreprise au développement d'applications Android from scratch, chaque projet est une opportunité d'apprendre et de repousser mes limites. Je recherche actuellement une <strong>alternance en développement web & logiciel</strong> pour continuer à progresser au contact de professionnels.</p>
+      <p data-fr="En dehors du code, je suis un sportif engagé — coureur depuis 3 ans et impliqué dans le basket-ball depuis plus de 10 ans en tant que joueur, arbitre, teneur de table et coach bénévole." data-en="Outside of coding, I'm a committed athlete — running for 3 years and involved in basketball for over 10 years as a player, referee, scorekeeper, and volunteer coach.">En dehors du code, je suis un sportif engagé — coureur depuis 3 ans et impliqué dans le basket-ball depuis plus de 10 ans en tant que joueur, arbitre, teneur de table et coach bénévole.</p>
+      <div class="about-qualities">
+        <span class="quality-tag" data-fr="Ponctuel" data-en="Punctual">Ponctuel</span>
+        <span class="quality-tag" data-fr="Adaptable" data-en="Adaptable">Adaptable</span>
+        <span class="quality-tag" data-fr="Travail d'équipe" data-en="Teamwork">Travail d'équipe</span>
+        <span class="quality-tag" data-fr="Rigoureux" data-en="Rigorous">Rigoureux</span>
+        <span class="quality-tag" data-fr="Communiquant" data-en="Communicative">Communiquant</span>
+        <span class="quality-tag" data-fr="Permis B" data-en="Driver's License">Permis B</span>
+      </div>
+    </div>
+    <div class="about-stats">
+      <div class="stat reveal reveal-stagger" style="--i:0">
+        <div class="stat-val">19</div>
+        <div class="stat-lbl" data-fr="ans" data-en="years old">ans</div>
+      </div>
+      <div class="stat reveal reveal-stagger" style="--i:1">
+        <div class="stat-val">+5</div>
+        <div class="stat-lbl" data-fr="ans de code" data-en="years coding">ans de code</div>
+      </div>
+      <div class="stat reveal reveal-stagger" style="--i:2">
+        <div class="stat-val">6+</div>
+        <div class="stat-lbl" data-fr="projets réalisés" data-en="projects completed">projets réalisés</div>
+      </div>
+      <div class="stat reveal reveal-stagger" style="--i:3">
+        <div class="stat-val">12+</div>
+        <div class="stat-lbl" data-fr="certifications" data-en="certifications">certifications</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SKILLS ═══ -->
+<section id="skills" class="section">
+  <div class="section-header reveal">
+    <div class="section-label" data-fr="02 — Compétences" data-en="02 — Skills">02 — Compétences</div>
+    <h2 class="section-title" data-fr="Stack technique." data-en="Tech stack.">Stack technique.</h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card reveal reveal-stagger" style="--i:0">
+      <div class="skill-card-icon"><i class="fas fa-code"></i></div>
+      <div class="skill-card-name" data-fr="Développement Web" data-en="Web Development">Développement Web</div>
+      <div class="skill-card-desc" data-fr="Sites vitrines, applications web dynamiques, interfaces responsives et performantes." data-en="Showcase websites, dynamic web applications, responsive and performant interfaces.">Sites vitrines, applications web dynamiques, interfaces responsives et performantes.</div>
+      <div class="skill-tags">
+        <span class="skill-tag">HTML5</span><span class="skill-tag">CSS3</span>
+        <span class="skill-tag">JavaScript</span><span class="skill-tag">PHP</span>
+        <span class="skill-tag">Symfony</span>
+      </div>
+    </div>
+    <div class="skill-card reveal reveal-stagger" style="--i:1">
+      <div class="skill-card-icon"><i class="fas fa-mobile-alt"></i></div>
+      <div class="skill-card-name" data-fr="Applications Mobile" data-en="Mobile Applications">Applications Mobile</div>
+      <div class="skill-card-desc" data-fr="Développement d'applications Android natives avec Android Studio — scan, export FTP, gestion de stock." data-en="Native Android app development with Android Studio — scanning, FTP export, stock management.">Développement d'applications Android natives avec Android Studio — scan, export FTP, gestion de stock.</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Java</span><span class="skill-tag">Android Studio</span>
+        <span class="skill-tag">Android</span>
+      </div>
+    </div>
+    <div class="skill-card reveal reveal-stagger" style="--i:2">
+      <div class="skill-card-icon"><i class="fas fa-database"></i></div>
+      <div class="skill-card-name" data-fr="Bases de données" data-en="Databases">Bases de données</div>
+      <div class="skill-card-desc" data-fr="Conception, modélisation et administration de bases de données relationnelles, requêtes complexes." data-en="Design, modeling and administration of relational databases, complex queries.">Conception, modélisation et administration de bases de données relationnelles, requêtes complexes.</div>
+      <div class="skill-tags">
+        <span class="skill-tag">SQL</span><span class="skill-tag">MySQL</span>
+        <span class="skill-tag">PostgreSQL</span>
+      </div>
+    </div>
+    <div class="skill-card reveal reveal-stagger" style="--i:3">
+      <div class="skill-card-icon"><i class="fas fa-terminal"></i></div>
+      <div class="skill-card-name" data-fr="Langages & Scripting" data-en="Languages & Scripting">Langages & Scripting</div>
+      <div class="skill-card-desc" data-fr="Programmation orientée objet, scripts d'automatisation et monitoring, algorithmique avancée." data-en="Object-oriented programming, automation and monitoring scripts, advanced algorithms.">Programmation orientée objet, scripts d'automatisation et monitoring, algorithmique avancée.</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Python</span><span class="skill-tag">Java</span>
+        <span class="skill-tag">C++</span>
+      </div>
+    </div>
+    <div class="skill-card reveal reveal-stagger" style="--i:4">
+      <div class="skill-card-icon"><i class="fas fa-tools"></i></div>
+      <div class="skill-card-name" data-fr="Outils & Méthodes" data-en="Tools & Methods">Outils & Méthodes</div>
+      <div class="skill-card-desc" data-fr="Versioning, environnements de développement, gestion de projet agile et bonnes pratiques." data-en="Version control, development environments, agile project management and best practices.">Versioning, environnements de développement, gestion de projet agile et bonnes pratiques.</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Git / GitHub</span><span class="skill-tag">VS Code</span>
+        <span class="skill-tag">IntelliJ</span><span class="skill-tag">Laragon</span>
+        <span class="skill-tag">Méthode Agile</span>
+      </div>
+    </div>
+    <div class="skill-card reveal reveal-stagger" style="--i:5">
+      <div class="skill-card-icon"><i class="fas fa-server"></i></div>
+      <div class="skill-card-name" data-fr="Systèmes & Réseau" data-en="Systems & Networking">Systèmes & Réseau</div>
+      <div class="skill-card-desc" data-fr="Administration Linux, configuration réseau, simulation d'infrastructures et sécurité." data-en="Linux administration, network configuration, infrastructure simulation and security.">Administration Linux, configuration réseau, simulation d'infrastructures et sécurité.</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Linux Debian</span><span class="skill-tag">Packet Tracer</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CERTIFICATIONS ═══ -->
+<section id="certifications" class="section">
+  <div class="section-header reveal">
+    <div class="section-label" data-fr="03 — Certifications" data-en="03 — Certifications">03 — Certifications</div>
+    <h2 class="section-title" data-fr="Formation continue." data-en="Continuous learning.">Formation continue.</h2>
+  </div>
+  <div class="certs-grid">
+    <a href="https://openclassrooms.com/fr/courses/7008001-debutez-avec-react" target="_blank" class="cert-item reveal reveal-stagger" style="--i:0">
+      <div class="cert-icon"><i class="fab fa-react"></i></div>
+      <div class="cert-info">
+        <div class="cert-name">Débutez avec React</div>
+        <div class="cert-platform">OpenClassrooms</div>
+      </div>
+      <div class="cert-status" data-fr="Obtenue" data-en="Completed">Obtenue</div>
+    </a>
+    <a href="https://openclassrooms.com/fr/courses/5249006-decouvrez-les-fondamentaux-de-lux-design" target="_blank" class="cert-item reveal reveal-stagger" style="--i:1">
+      <div class="cert-icon"><i class="fas fa-paint-brush"></i></div>
+      <div class="cert-info">
+        <div class="cert-name" data-fr="Découvrez les fondamentaux de l'UX design" data-en="UX Design Fundamentals">Découvrez les fondamentaux de l'UX design</div>
+        <div class="cert-platform">OpenClassrooms</div>
+      </div>
+      <div class="cert-status" data-fr="Obtenue" data-en="Completed">Obtenue</div>
+    </a>
+    <a href="https://openclassrooms.com/fr/courses/7696886-apprenez-a-programmer-avec-javascript" target="_blank" class="cert-item reveal reveal-stagger" style="--i:2">
+      <div class="cert-icon"><i class="fab fa-js-square"></i></div>
+      <div class="cert-info">
+        <div class="cert-name" data-fr="Apprenez à programmer avec JavaScript" data-en="Learn to Program with JavaScript">Apprenez à programmer avec JavaScript</div>
+        <div class="cert-platform">OpenClassrooms</div>
+      </div>
+      <div class="cert-status" data-fr="Obtenue" data-en="Completed">Obtenue</div>
+    </a>
+    <a href="https://openclassrooms.com/fr/courses/8204091-utilisez-chatgpt-pour-ameliorer-votre-productivite" target="_blank" class="cert-item reveal reveal-stagger" style="--i:3">
+      <div class="cert-icon"><i class="fas fa-robot"></i></div>
+      <div class="cert-info">
+        <div class="cert-name" data-fr="Utilisez ChatGPT pour améliorer votre productivité" data-en="Use ChatGPT to Boost Productivity">Utilisez ChatGPT pour améliorer votre productivité</div>
+        <div class="cert-platform">OpenClassrooms</div>
+      </div>
+      <div class="cert-status" data-fr="Obtenue" data-en="Completed">Obtenue</div>
+    </a>
+    <a href="https://openclassrooms.com/fr/courses/7162856-gerez-du-code-avec-git-et-github" target="_blank" class="cert-item reveal reveal-stagger" style="--i:4">
+      <div class="cert-icon"><i class="fab fa-git-alt"></i></div>
+      <div class="cert-info">
+        <div class="cert-name" data-fr="Gérez du code avec Git et GitHub" data-en="Manage Code with Git and GitHub">Gérez du code avec Git et GitHub</div>
+        <div class="cert-platform">OpenClassrooms</div>
+      </div>
+      <div class="cert-status" data-fr="Obtenue" data-en="Completed">Obtenue</div>
+    </a>
+    <a href="https://openclassrooms.com/fr/courses/7150616-apprenez-la-programmation-orientee-objet-avec-python" target="_blank" class="cert-item reveal reveal-stagger" style="--i:5">
+      <div class="cert-icon"><i class="fab fa-python"></i></div>
+      <div class="cert-info">
+        <div class="cert-name" data-fr="POO avec Python" data-en="OOP with Python">POO avec Python</div>
+        <div class="cert-platform">OpenClassrooms</div>
+      </div>
+      <div class="cert-status" data-fr="Obtenue" data-en="Completed">Obtenue</div>
+    </a>
+    <a href="https://openclassrooms.com/fr/courses/6045521-apprenez-a-programmer-en-java" target="_blank" class="cert-item reveal reveal-stagger" style="--i:6">
+      <div class="cert-icon"><i class="fab fa-java"></i></div>
+      <div class="cert-info">
+        <div class="cert-name" data-fr="Apprenez à programmer en Java" data-en="Learn to Program in Java">Apprenez à programmer en Java</div>
+        <div class="cert-platform">OpenClassrooms</div>
+      </div>
+      <div class="cert-status" data-fr="Obtenue" data-en="Completed">Obtenue</div>
+    </a>
+    <a href="https://openclassrooms.com/fr/courses/5919246-creez-des-animations-css-modernes" target="_blank" class="cert-item reveal reveal-stagger" style="--i:7">
+      <div class="cert-icon"><i class="fas fa-magic"></i></div>
+      <div class="cert-info">
+        <div class="cert-name" data-fr="Créez des animations CSS modernes" data-en="Create Modern CSS Animations">Créez des animations CSS modernes</div>
+        <div class="cert-platform">OpenClassrooms</div>
+      </div>
+      <div class="cert-status" data-fr="Obtenue" data-en="Completed">Obtenue</div>
+    </a>
+    <a href="https://openclassrooms.com/fr/courses/918836-concevez-votre-site-web-avec-php-et-mysql" target="_blank" class="cert-item reveal reveal-stagger" style="--i:8">
+      <div class="cert-icon"><i class="fab fa-php"></i></div>
+      <div class="cert-info">
+        <div class="cert-name" data-fr="Concevez votre site web avec PHP et MySQL" data-en="Build Your Website with PHP & MySQL">Concevez votre site web avec PHP et MySQL</div>
+        <div class="cert-platform">OpenClassrooms</div>
+      </div>
+      <div class="cert-status" data-fr="Obtenue" data-en="Completed">Obtenue</div>
+    </a>
+    <a href="https://openclassrooms.com/fr/courses/7170491-initiez-vous-a-linux" target="_blank" class="cert-item reveal reveal-stagger" style="--i:9">
+      <div class="cert-icon"><i class="fab fa-linux"></i></div>
+      <div class="cert-info">
+        <div class="cert-name" data-fr="Initiez-vous à Linux" data-en="Get Started with Linux">Initiez-vous à Linux</div>
+        <div class="cert-platform">OpenClassrooms</div>
+      </div>
+      <div class="cert-status" data-fr="Obtenue" data-en="Completed">Obtenue</div>
+    </a>
+    <a href="https://openclassrooms.com/fr/courses/1603881-creez-votre-site-web-avec-html5-et-css3" target="_blank" class="cert-item reveal reveal-stagger" style="--i:10">
+      <div class="cert-icon"><i class="fab fa-html5"></i></div>
+      <div class="cert-info">
+        <div class="cert-name" data-fr="Créez votre site web avec HTML5 et CSS3" data-en="Build Your Website with HTML5 & CSS3">Créez votre site web avec HTML5 et CSS3</div>
+        <div class="cert-platform">OpenClassrooms</div>
+      </div>
+      <div class="cert-status" data-fr="Obtenue" data-en="Completed">Obtenue</div>
+    </a>
+    <div class="cert-item reveal reveal-stagger" style="--i:11">
+      <div class="cert-icon"><i class="fas fa-spell-check"></i></div>
+      <div class="cert-info">
+        <div class="cert-name" data-fr="Certification Voltaire — Score 420" data-en="Voltaire Certification — Score 420">Certification Voltaire — Score 420</div>
+        <div class="cert-platform" data-fr="Orthographe" data-en="French Spelling">Orthographe</div>
+      </div>
+      <div class="cert-status" data-fr="Obtenue" data-en="Completed">Obtenue</div>
+    </div>
+    <a href="https://openclassrooms.com/fr/courses/1894236-programmez-en-oriente-objet-avec-c" target="_blank" class="cert-item reveal reveal-stagger" style="--i:12">
+      <div class="cert-icon"><i class="fas fa-cogs"></i></div>
+      <div class="cert-info">
+        <div class="cert-name" data-fr="POO avec C++" data-en="OOP with C++">POO avec C++</div>
+        <div class="cert-platform">OpenClassrooms</div>
+      </div>
+      <div class="cert-status in-progress" data-fr="En cours" data-en="In progress">En cours</div>
+    </a>
+    <a href="https://openclassrooms.com/fr/courses/7697016-creez-des-pages-web-dynamiques-avec-javascript" target="_blank" class="cert-item reveal reveal-stagger" style="--i:13">
+      <div class="cert-icon"><i class="fab fa-js"></i></div>
+      <div class="cert-info">
+        <div class="cert-name" data-fr="Pages web dynamiques avec JavaScript" data-en="Dynamic Web Pages with JavaScript">Pages web dynamiques avec JavaScript</div>
+        <div class="cert-platform">OpenClassrooms</div>
+      </div>
+      <div class="cert-status in-progress" data-fr="En cours" data-en="In progress">En cours</div>
+    </a>
+  </div>
+</section>
+
+<!-- ═══ PARCOURS ═══ -->
+<section id="parcours" class="section">
+  <div class="section-header reveal">
+    <div class="section-label" data-fr="04 — Parcours" data-en="04 — Journey">04 — Parcours</div>
+    <h2 class="section-title" data-fr="Expériences &<br>Formation." data-en="Experience &<br>Education.">Expériences &<br>Formation.</h2>
+  </div>
+  <div class="timeline">
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-date" data-fr="Jan — Fév 2026" data-en="Jan — Feb 2026">Jan — Fév 2026</div>
+      <div class="tl-title" data-fr="Stage 2ème année BTS SIO — Shoemakers" data-en="2nd Year BTS Internship — Shoemakers">Stage 2ème année BTS SIO — Shoemakers</div>
+      <div class="tl-place"><i class="fas fa-map-marker-alt"></i> <span>Chambretaud (85)</span></div>
+      <div class="tl-desc" data-fr="Développement complet d'une application Android de scan de codes-barres pour la gestion des commandes. Application créée de A à Z en Java sur Android Studio, avec export chiffré vers serveur FTP. Refonte complète d'une ancienne application WinDev dont les sources avaient été perdues — nouveau design, nouvelles fonctionnalités, code maintenable." data-en="Full development of an Android barcode scanning app for order management. Built from scratch in Java with Android Studio, featuring encrypted FTP export. Complete rebuild of a legacy WinDev application whose source code was lost — new design, new features, maintainable code.">Développement complet d'une application Android de scan de codes-barres pour la gestion des commandes. Application créée de A à Z en Java sur Android Studio, avec export chiffré vers serveur FTP. Refonte complète d'une ancienne application WinDev dont les sources avaient été perdues — nouveau design, nouvelles fonctionnalités, code maintenable.</div>
+      <div class="tl-tags"><span class="tl-tag">Java</span><span class="tl-tag">Android Studio</span><span class="tl-tag">FTP</span><span class="tl-tag">Chiffrement</span></div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-date" data-fr="Juil — Août 2025" data-en="Jul — Aug 2025">Juil — Août 2025</div>
+      <div class="tl-title" data-fr="Emploi saisonnier — Valéo Vision" data-en="Seasonal Work — Valéo Vision">Emploi saisonnier — Valéo Vision</div>
+      <div class="tl-place"><i class="fas fa-map-marker-alt"></i> <span>Ecouflant (49)</span></div>
+      <div class="tl-desc" data-fr="Travail en lignes de production sur les postes du matin, après-midi et nuit. Expérience industrielle développant rigueur et adaptabilité." data-en="Production line work across morning, afternoon, and night shifts. Industrial experience building discipline and adaptability.">Travail en lignes de production sur les postes du matin, après-midi et nuit. Expérience industrielle développant rigueur et adaptabilité.</div>
+      <div class="tl-tags"><span class="tl-tag">Industrie</span><span class="tl-tag">Production</span></div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-date" data-fr="Mai — Juin 2025" data-en="May — Jun 2025">Mai — Juin 2025</div>
+      <div class="tl-title" data-fr="Stage 1ère année BTS SIO — Nameshield" data-en="1st Year BTS Internship — Nameshield">Stage 1ère année BTS SIO — Nameshield</div>
+      <div class="tl-place"><i class="fas fa-map-marker-alt"></i> <span>Angers (49)</span></div>
+      <div class="tl-desc" data-fr="Développement d'un script de monitoring en Python pour interroger la base de données et relever automatiquement les anomalies. Application de la méthode agile avec Redmine. Script toujours utilisé en production par l'équipe de développement pour la détection rapide d'incidents." data-en="Development of a Python monitoring script to query the database and automatically detect anomalies. Applied Agile methodology with Redmine. Script still actively used in production by the development team for rapid incident detection.">Développement d'un script de monitoring en Python pour interroger la base de données et relever automatiquement les anomalies. Application de la méthode agile avec Redmine. Script toujours utilisé en production par l'équipe de développement pour la détection rapide d'incidents.</div>
+      <div class="tl-tags"><span class="tl-tag">Python</span><span class="tl-tag">SQL</span><span class="tl-tag">Monitoring</span><span class="tl-tag">Agile</span><span class="tl-tag">Redmine</span></div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2024 — 2026</div>
+      <div class="tl-title" data-fr="BTS SIO — Option SLAM" data-en="BTS SIO — SLAM Major">BTS SIO — Option SLAM</div>
+      <div class="tl-place"><i class="fas fa-graduation-cap"></i> <span data-fr="Lycée Sainte Marie — ESUPEC, Cholet (49)" data-en="Lycée Sainte Marie — ESUPEC, Cholet (49)">Lycée Sainte Marie — ESUPEC, Cholet (49)</span></div>
+      <div class="tl-desc" data-fr="BTS Services Informatiques aux Organisations, spécialité Solutions Logicielles et Applications Métiers. Développement web et logiciel, bases de données, gestion de projet, cybersécurité." data-en="IT Services for Organizations diploma, Software Solutions and Business Applications major. Web & software development, databases, project management, cybersecurity.">BTS Services Informatiques aux Organisations, spécialité Solutions Logicielles et Applications Métiers. Développement web et logiciel, bases de données, gestion de projet, cybersécurité.</div>
+      <div class="tl-tags"><span class="tl-tag">PHP</span><span class="tl-tag">Java</span><span class="tl-tag">SQL</span><span class="tl-tag">Symfony</span><span class="tl-tag">HTML/CSS</span></div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2021 — 2024</div>
+      <div class="tl-title" data-fr="Baccalauréat Général — NSI & Mathématiques" data-en="General Baccalaureate — CS & Mathematics">Baccalauréat Général — NSI & Mathématiques</div>
+      <div class="tl-place"><i class="fas fa-graduation-cap"></i> <span data-fr="Lycée Jean Moulin, Angers (49)" data-en="Lycée Jean Moulin, Angers (49)">Lycée Jean Moulin, Angers (49)</span></div>
+      <div class="tl-desc" data-fr="Spécialités Numérique et Sciences Informatiques (NSI) et Mathématiques. Premiers pas en programmation avec Python, HTML et CSS." data-en="Specialization in Computer Science (NSI) and Mathematics. First steps in programming with Python, HTML, and CSS.">Spécialités Numérique et Sciences Informatiques (NSI) et Mathématiques. Premiers pas en programmation avec Python, HTML et CSS.</div>
+      <div class="tl-tags"><span class="tl-tag">Python</span><span class="tl-tag">HTML</span><span class="tl-tag">CSS</span><span class="tl-tag">Algorithmes</span></div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-date" data-fr="Fév 2021" data-en="Feb 2021">Fév 2021</div>
+      <div class="tl-title" data-fr="Stage de 3ème — Codilog" data-en="Middle School Internship — Codilog">Stage de 3ème — Codilog</div>
+      <div class="tl-place"><i class="fas fa-map-marker-alt"></i> <span>Angers (49)</span></div>
+      <div class="tl-desc" data-fr="Stage de découverte de 3 jours dans le développement informatique. Première immersion dans le monde du code qui a confirmé ma vocation." data-en="3-day discovery internship in software development. First immersion in the world of coding that confirmed my calling.">Stage de découverte de 3 jours dans le développement informatique. Première immersion dans le monde du code qui a confirmé ma vocation.</div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2020 — 2021</div>
+      <div class="tl-title" data-fr="Brevet des collèges" data-en="Middle School Diploma">Brevet des collèges</div>
+      <div class="tl-place"><i class="fas fa-graduation-cap"></i> <span data-fr="Collège La Venaiserie, St Barthélemy d'Anjou (49)" data-en="Collège La Venaiserie, St Barthélemy d'Anjou (49)">Collège La Venaiserie, St Barthélemy d'Anjou (49)</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROJECTS ═══ -->
+<section id="projects" class="section">
+  <div class="section-header reveal">
+    <div class="section-label" data-fr="05 — Projets" data-en="05 — Projects">05 — Projets</div>
+    <h2 class="section-title" data-fr="Réalisations." data-en="Work.">Réalisations.</h2>
+  </div>
+  <div class="projects-grid">
+
+    <!-- Project: Shoemakers App -->
+    <div class="project reveal">
+      <div class="project-info">
+        <div class="project-num">01</div>
+        <span class="project-type type-stage" data-fr="Stage" data-en="Internship">Stage</span>
+        <h3 class="project-name">App Scanner — Shoemakers</h3>
+        <p class="project-desc" data-fr="Application Android de scan de codes-barres pour la gestion de commandes dans l'entrepôt. Reconstruction complète d'une ancienne app WinDev — nouveau graphisme, nouvelles fonctionnalités, export chiffré FTP et architecture robuste et maintenable." data-en="Android barcode scanning app for warehouse order management. Complete rebuild of a legacy WinDev app — new UI, new features, encrypted FTP export, and a robust, maintainable architecture.">Application Android de scan de codes-barres pour la gestion de commandes dans l'entrepôt. Reconstruction complète d'une ancienne app WinDev — nouveau graphisme, nouvelles fonctionnalités, export chiffré FTP et architecture robuste et maintenable.</p>
+        <ul class="project-features">
+          <li data-fr="Scan de codes-barres en temps réel" data-en="Real-time barcode scanning">Scan de codes-barres en temps réel</li>
+          <li data-fr="Export chiffré vers serveur FTP" data-en="Encrypted export to FTP server">Export chiffré vers serveur FTP</li>
+          <li data-fr="Refonte UI complète depuis WinDev" data-en="Complete UI redesign from WinDev">Refonte UI complète depuis WinDev</li>
+          <li data-fr="Architecture maintenable avec code source" data-en="Maintainable architecture with source code">Architecture maintenable avec code source</li>
+        </ul>
+        <div class="project-tech"><span>Java</span><span>Android Studio</span><span>FTP</span><span>Chiffrement</span></div>
+        <div class="project-status"><div class="dot-status"></div> <span data-fr="Terminé" data-en="Completed">Terminé</span></div>
+      </div>
+      <div class="project-visual">
+        <div class="project-visual-inner">
+          <div class="project-placeholder">
+            <div class="shape"></div><div class="shape"></div><div class="shape"></div>
+            <div class="icon"><i class="fas fa-mobile-alt"></i></div>
+          </div>
+          <!-- <img src="screenshots/shoemakers.png" class="project-screenshot" alt="Shoemakers App"> -->
         </div>
-        <div class="loader-text">Chargement du site...</div>
+      </div>
     </div>
 
-    <!-- Navigation Élégante -->
-    <nav class="glass-nav">
-        <div class="nav-container">
-            <div class="logo" data-aos="fade-right">
-                <span class="logo-text">MG</span>
-            </div>
-            <div class="nav-links">
-                <a href="#accueil" class="nav-link" data-aos="fade-down" data-aos-delay="100">Accueil</a>
-                <a href="#projets" class="nav-link" data-aos="fade-down" data-aos-delay="200">Projets</a>
-                <a href="#competences" class="nav-link" data-aos="fade-down" data-aos-delay="300">Compétences</a>
-                <a href="#about" class="nav-link" data-aos="fade-down" data-aos-delay="400">À Propos</a>
-                <a href="#veille" class="nav-link" data-aos="fade-down" data-aos-delay="450">Veille</a>
-                <a href="#contact" class="nav-link" data-aos="fade-down" data-aos-delay="500">Contact</a>
-            </div>
-            <div class="hamburger" data-aos="fade-left">
-                <div class="line"></div>
-                <div class="line"></div>
-                <div class="line"></div>
-            </div>
+    <!-- Project: Nameshield Monitoring -->
+    <div class="project reveal">
+      <div class="project-info">
+        <div class="project-num">02</div>
+        <span class="project-type type-stage" data-fr="Stage" data-en="Internship">Stage</span>
+        <h3 class="project-name">Monitoring Script — Nameshield</h3>
+        <p class="project-desc" data-fr="Script de monitoring en Python pour interroger automatiquement la base de données et relever les anomalies en priorité. Toujours utilisé en production par l'équipe de développement pour la détection rapide d'incidents." data-en="Python monitoring script to automatically query the database and flag anomalies by priority. Still actively used in production by the development team for rapid incident detection.">Script de monitoring en Python pour interroger automatiquement la base de données et relever les anomalies en priorité. Toujours utilisé en production par l'équipe de développement pour la détection rapide d'incidents.</p>
+        <ul class="project-features">
+          <li data-fr="Interrogation automatique de la BDD" data-en="Automated database querying">Interrogation automatique de la BDD</li>
+          <li data-fr="Détection et priorisation des anomalies" data-en="Anomaly detection and prioritization">Détection et priorisation des anomalies</li>
+          <li data-fr="Méthode Agile avec Redmine" data-en="Agile methodology with Redmine">Méthode Agile avec Redmine</li>
+          <li data-fr="En production — utilisé quotidiennement" data-en="In production — used daily">En production — utilisé quotidiennement</li>
+        </ul>
+        <div class="project-tech"><span>Python</span><span>SQL</span><span>Redmine</span><span>Agile</span></div>
+        <div class="project-status"><div class="dot-status"></div> <span data-fr="En production" data-en="In production">En production</span></div>
+      </div>
+      <div class="project-visual">
+        <div class="project-visual-inner">
+          <div class="project-placeholder">
+            <div class="shape"></div><div class="shape"></div><div class="shape"></div>
+            <div class="icon"><i class="fas fa-chart-line"></i></div>
+          </div>
         </div>
-    </nav>
-
-    <!-- Navigation Spatiale -->
-    <div class="space-nav">
-        <div class="space-dots">
-            <a href="#accueil" class="space-dot active" data-tooltip="Accueil"></a>
-            <a href="#projets" class="space-dot" data-tooltip="Projets"></a>
-            <a href="#competences" class="space-dot" data-tooltip="Compétences"></a>
-            <a href="#about" class="space-dot" data-tooltip="À Propos"></a>
-            <a href="#veille" class="space-dot" data-tooltip="Veille"></a>
-            <a href="#contact" class="space-dot" data-tooltip="Contact"></a>
-        </div>
+      </div>
     </div>
 
-    <!-- Hero Section -->
-    <section id="accueil" class="hero">
-        <div class="hero-matrix">
-            <canvas id="matrixCanvas"></canvas>
-            <div class="matrix-overlay"></div>
+    <!-- Project: AP3 - Puy du Fou -->
+    <div class="project reveal">
+      <div class="project-info">
+        <div class="project-num">03</div>
+        <span class="project-type type-scolaire" data-fr="Projet scolaire" data-en="School project">Projet scolaire</span>
+        <h3 class="project-name" data-fr="Itinéraire Puy du Fou" data-en="Puy du Fou Itinerary">Itinéraire Puy du Fou</h3>
+        <p class="project-desc" data-fr="Application web permettant de créer un itinéraire optimisé pour organiser sa journée au Puy du Fou. Interface visiteur pour planifier et espace gestionnaire complet avec CRUD pour administrer les attractions, horaires et données du parc." data-en="Web application to create optimized itineraries for planning a day at Puy du Fou theme park. Visitor interface for planning and full admin panel with CRUD to manage attractions, schedules, and park data.">Application web permettant de créer un itinéraire optimisé pour organiser sa journée au Puy du Fou. Interface visiteur pour planifier et espace gestionnaire complet avec CRUD pour administrer les attractions, horaires et données du parc.</p>
+        <ul class="project-features">
+          <li data-fr="Création d'itinéraires personnalisés" data-en="Custom itinerary creation">Création d'itinéraires personnalisés</li>
+          <li data-fr="Interface gestionnaire avec CRUD complet" data-en="Admin interface with full CRUD">Interface gestionnaire avec CRUD complet</li>
+          <li data-fr="Gestion des attractions et horaires" data-en="Attraction and schedule management">Gestion des attractions et horaires</li>
+        </ul>
+        <div class="project-tech"><span>PHP</span><span>MySQL</span><span>HTML/CSS</span><span>JavaScript</span></div>
+        <div class="project-status"><div class="dot-status"></div> <span data-fr="Terminé" data-en="Completed">Terminé</span></div>
+      </div>
+      <div class="project-visual">
+        <div class="project-visual-inner">
+          <div class="project-placeholder">
+            <div class="shape"></div><div class="shape"></div><div class="shape"></div>
+            <div class="icon"><i class="fas fa-route"></i></div>
+          </div>
         </div>
-
-        <div class="hero-content">
-            <h1 data-aos="fade-up" data-aos-delay="300">
-                <span class="greeting">Bonjour, Je suis</span>
-                <span class="name">GAILLARD Maxence</span>
-                <span class="title">Mon portfolio</span>
-            </h1>
-            <p class="hero-description" data-aos="fade-up" data-aos-delay="500">Etudiant en BTS SIO (Services
-                Infomatiques aux Organisations)</p>
-            <div class="hero-cta" data-aos="fade-up" data-aos-delay="700">
-                <a href="#projets" class="btn btn-primary">Voir mes travaux</a>
-                <a href="#contact" class="btn btn-secondary">Me contacter</a>
-            </div>
-        </div>
-        <div class="hero-image" data-aos="fade-left" data-aos-delay="900">
-            <div
-                class="relative w-72 h-72 mx-auto animate-morph bg-gradient-to-br from-primary via-secondary to-accent rounded-full overflow-hidden">
-                <div
-                    class="absolute inset-0 bg-gradient-to-br from-primary/50 via-secondary/50 to-accent/50 rounded-full blur-2xl animate-morph">
-                </div>
-                <img src="/images/image_code.jpg" alt="Votre photo"
-                    class="absolute inset-0 w-full h-full object-cover z-10">
-            </div>
-        </div>
-        <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="1100">
-            <span>Scroll</span>
-            <div class="line"></div>
-        </div>
-    </section>
-
-    <!-- Projets Section -->
-    <section id="projets" class="projects">
-        <div class="section-header" data-aos="fade-up">
-            <h2>Mes <span>Projets</span></h2>
-            <p>Une sélection de mes principaux travaux</p>
-        </div>
-        <div class="projects-grid">
-            <!-- Projet 1 -->
-            <div class="project-card hologram" data-aos="fade-up" data-aos-delay="200">
-                <div class="hologram-content">
-                    <h3>Projet...</h3>
-                    <p>Technologies: HTML/CSS</p>
-                    <a href="#" class="btn btn-small">Voir plus</a>
-                </div>
-                <div class="hologram-light"></div>
-                <div class="hologram-grid"></div>
-            </div>
-
-            <!-- Projet 2 -->
-            <div class="project-card hologram" data-aos="fade-up" data-aos-delay="300">
-                <div class="hologram-content">
-                    <h3>Site BST79</h3>
-                    <p>Technologies: Wordpress</p>
-                    <a href="#" class="btn btn-small">Voir plus</a>
-                </div>
-                <div class="hologram-light"></div>
-                <div class="hologram-grid"></div>
-            </div>
-
-            <!-- Projet 3 -->
-            <div class="project-card hologram" data-aos="fade-up" data-aos-delay="400">
-                <div class="hologram-content">
-                    <h3>Site Web Créatif</h3>
-                    <p>Technologies: HTML/CSS, JavaScript</p>
-                    <a href="#" class="btn btn-small">Voir plus</a>
-                </div>
-                <div class="hologram-light"></div>
-                <div class="hologram-grid"></div>
-            </div>
-        </div>
-        <!-- Modal pour les projets -->
-        <div class="project-modal" id="projectModal">
-            <div class="modal-content">
-                <span class="close-modal">&times;</span>
-                <div class="modal-header">
-                    <h2 id="modalProjectTitle">Titre du Projet</h2>
-                    <p id="modalProjectTech">Technologies utilisées</p>
-                </div>
-                <div class="modal-body">
-                    <div class="modal-image-container">
-                        <img id="modalProjectImage" src="" alt="Image du projet">
-                    </div>
-                    <div class="modal-description">
-                        <h3>Description</h3>
-                        <p id="modalProjectDescription">Description détaillée du projet...</p>
-                        <h3>Détails</h3>
-                        <ul id="modalProjectDetails">
-                            <!-- Les détails seront ajoutés dynamiquement -->
-                        </ul>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <a href="#" class="btn btn-primary" id="modalProjectLink" target="_blank">Voir le projet</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Plus de projets (caché initialement) -->
-        <div class="more-projects" id="moreProjects">
-            <div class="projects-grid">
-                <!-- Projets supplémentaires seront ajoutés ici dynamiquement -->
-            </div>
-            <div class="load-more-container">
-                <button class="btn btn-secondary" id="showLessBtn">Voir moins</button>
-            </div>
-        </div>
-
-        <div class="load-more-container">
-            <button class="btn btn-primary" id="loadMoreBtn">Voir plus de projets</button>
-        </div>
-    </section>
-
-
-    <!-- Compétences Section -->
-    <section id="competences" class="skills">
-        <div class="section-header" data-aos="fade-up">
-            <h2>Mes <span>Compétences</span></h2>
-            <p>Technologies que je maîtrise</p>
-        </div>
-        <div class="skills-container">
-            <div class="skills-radar" data-aos="fade-right">
-                <canvas id="radarChart"></canvas>
-            </div>
-            <div class="skills-list" data-aos="fade-left">
-                <div class="skill-category">
-                    <h3>Frontend</h3>
-                    <div class="skill-bar">
-                        <span class="skill-name">HTML/CSS</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 80%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-bar">
-                        <span class="skill-name">JavaScript</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 70%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-bar">
-                        <span class="skill-name">Java</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 55%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="skill-category">
-                    <h3>Backend</h3>
-                    <div class="skill-bar">
-                        <span class="skill-name">C++</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 35%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-bar">
-                        <span class="skill-name">Python</span>
-                        <div class="bar-container">
-                            <div class="bar" style="width: 75%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-        </div>
-        <div class="skills-button-container">
-            <button class="btn btn-secondary" id="showMoreSkillsBtn">Voir plus de compétences</button>
-        </div>
-
-    </section>
-
-    <!-- Modal pour les compétences supplémentaires -->
-    <div class="skills-modal" id="skillsModal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="modal-header">
-                <h2>Compétences <span>Supplémentaires</span></h2>
-                <p>D'autres technologies que j'utilise</p>
-            </div>
-            <div class="modal-body">
-                <div class="skills-grid">
-                    <div class="skill-category">
-                        <h3>Bases de données</h3>
-                        <div class="skill-bar">
-                            <span class="skill-name">SQL</span>
-                            <div class="bar-container">
-                                <div class="bar" style="width: 65%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-bar">
-                            <span class="skill-name">MongoDB</span>
-                            <div class="bar-container">
-                                <div class="bar" style="width: 50%"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="skill-category">
-                        <h3>Frameworks</h3>
-                        <div class="skill-bar">
-                            <span class="skill-name">React</span>
-                            <div class="bar-container">
-                                <div class="bar" style="width: 60%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-bar">
-                            <span class="skill-name">Vue.js</span>
-                            <div class="bar-container">
-                                <div class="bar" style="width: 45%"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="skill-category">
-                        <h3>Outils</h3>
-                        <div class="skill-bar">
-                            <span class="skill-name">Git</span>
-                            <div class="bar-container">
-                                <div class="bar" style="width: 70%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-bar">
-                            <span class="skill-name">Docker</span>
-                            <div class="bar-container">
-                                <div class="bar" style="width: 40%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
-    </section>
 
-    <!-- À Propos Section -->
-    <section id="about" class="about">
-        <div class="section-header" data-aos="fade-up">
-            <h2>À <span>Propos</span></h2>
-            <p>Qui suis-je ?</p>
+    <!-- Project: AP2 - Gestion Marchés -->
+    <div class="project reveal">
+      <div class="project-info">
+        <div class="project-num">04</div>
+        <span class="project-type type-scolaire" data-fr="Projet scolaire" data-en="School project">Projet scolaire</span>
+        <h3 class="project-name" data-fr="Gestion de Marchés" data-en="Market Management">Gestion de Marchés</h3>
+        <p class="project-desc" data-fr="Application web de gestion des places de marché. Les marchands réservent leurs emplacements et les gérants administrent les marchés. Système complet avec CRUD, gestion des rôles et interface intuitive." data-en="Web application for marketplace management. Merchants reserve their stalls while managers administer markets. Complete system with CRUD, role management, and intuitive interface.">Application web de gestion des places de marché. Les marchands réservent leurs emplacements et les gérants administrent les marchés. Système complet avec CRUD, gestion des rôles et interface intuitive.</p>
+        <ul class="project-features">
+          <li data-fr="Réservation d'emplacements pour marchands" data-en="Stall reservation for merchants">Réservation d'emplacements pour marchands</li>
+          <li data-fr="Interface gérant avec CRUD" data-en="Manager interface with CRUD">Interface gérant avec CRUD</li>
+          <li data-fr="Gestion des rôles et permissions" data-en="Role and permission management">Gestion des rôles et permissions</li>
+        </ul>
+        <div class="project-tech"><span>PHP</span><span>MySQL</span><span>HTML/CSS</span><span>JavaScript</span></div>
+        <div class="project-status"><div class="dot-status"></div> <span data-fr="Terminé" data-en="Completed">Terminé</span></div>
+      </div>
+      <div class="project-visual">
+        <div class="project-visual-inner">
+          <div class="project-placeholder">
+            <div class="shape"></div><div class="shape"></div><div class="shape"></div>
+            <div class="icon"><i class="fas fa-store"></i></div>
+          </div>
         </div>
-        <div class="about-container">
-            <div class="about-image" data-aos="fade-right">
-                <img src="/images/image_clavier_code.jpg" alt="À propos">
-                <div class="about-decoration"></div>
-            </div>
-            <div class="about-content" data-aos="fade-left">
-                <h3>Mon parcours</h3>
-                <p>BTS SIO Option SLAM</p>
-                <p>Objectif : licence informatique</p>
+      </div>
+    </div>
 
-                <div class="terminal">
-                    <div class="terminal-header">
-                        <div class="terminal-buttons">
-                            <span class="terminal-btn red"></span>
-                            <span class="terminal-btn yellow"></span>
-                            <span class="terminal-btn green"></span>
-                        </div>
-                        <div class="terminal-title">maxence@portfolio: ~</div>
-                    </div>
-                    <div class="terminal-body">
-                        <div class="terminal-content">
-                            <div class="terminal-welcome">
-                                <span class="welcome-command">$ welcome --portfolio</span>
-                                <div class="welcome-message">
-                                    <span class="greeting">Bienvenue dans mon univers numérique</span>
-                                    <span class="typing-effect">Étudiant passionné en développement web & mobile</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- Project: AP1 - BST79 -->
+    <div class="project reveal">
+      <div class="project-info">
+        <div class="project-num">05</div>
+        <span class="project-type type-scolaire" data-fr="Projet scolaire" data-en="School project">Projet scolaire</span>
+        <h3 class="project-name">BST79 — Site Vitrine</h3>
+        <p class="project-desc" data-fr="Création d'un site vitrine professionnel pour un chaudronnier avec WordPress. Objectif : apporter de la visibilité à l'artisan et présenter ses services. Projet réalisé en équipe." data-en="Professional showcase website for a boilermaker built with WordPress. Goal: increase the craftsman's visibility and present their services. Team project.">Création d'un site vitrine professionnel pour un chaudronnier avec WordPress. Objectif : apporter de la visibilité à l'artisan et présenter ses services. Projet réalisé en équipe.</p>
+        <div class="project-tech"><span>WordPress</span><span>CMS</span></div>
+        <div class="project-status"><div class="dot-status"></div> <span data-fr="Terminé — " data-en="Completed — ">Terminé — </span><a href="https://bst79.fr/" target="_blank" style="color: var(--accent); text-decoration: underline;">bst79.fr</a></div>
+      </div>
+      <div class="project-visual">
+        <div class="project-visual-inner">
+          <div class="project-placeholder">
+            <div class="shape"></div><div class="shape"></div><div class="shape"></div>
+            <div class="icon"><i class="fab fa-wordpress"></i></div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
 
-    <!-- Veille Section -->
-    <section id="veille" class="veille">
-        <div class="section-header" data-aos="fade-up">
-            <h2>Ma <span>Veille Technologique</span></h2>
-            <p>Suivi des dernières tendances et innovations</p>
+    <!-- Project: Clean Auto -->
+    <div class="project reveal">
+      <div class="project-info">
+        <div class="project-num">06</div>
+        <span class="project-type type-perso" data-fr="Projet personnel" data-en="Personal project">Projet personnel</span>
+        <h3 class="project-name">Clean Auto</h3>
+        <p class="project-desc" data-fr="Site vitrine pour un projet de business de nettoyage automobile. Design épuré et esthétique, présentation des services, tarifs, et prise de rendez-vous (en cours de développement)." data-en="Showcase website for an auto detailing business project. Clean aesthetic design, service presentation, pricing, and appointment booking (under development).">Site vitrine pour un projet de business de nettoyage automobile. Design épuré et esthétique, présentation des services, tarifs, et prise de rendez-vous (en cours de développement).</p>
+        <ul class="project-features">
+          <li data-fr="Présentation des services et tarifs" data-en="Service and pricing presentation">Présentation des services et tarifs</li>
+          <li data-fr="Design épuré et responsive" data-en="Clean and responsive design">Design épuré et responsive</li>
+          <li data-fr="Prise de rendez-vous (en cours)" data-en="Appointment booking (in progress)">Prise de rendez-vous (en cours)</li>
+        </ul>
+        <div class="project-tech"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>PHP</span></div>
+        <div class="project-status in-progress"><div class="dot-status"></div> <span data-fr="En cours de développement" data-en="Under development">En cours de développement</span></div>
+      </div>
+      <div class="project-visual">
+        <div class="project-visual-inner">
+          <div class="project-placeholder">
+            <div class="shape"></div><div class="shape"></div><div class="shape"></div>
+            <div class="icon"><i class="fas fa-car"></i></div>
+          </div>
         </div>
+      </div>
+    </div>
 
-        <div class="veille-container">
-            <!-- Carte Veille 1 -->
-            <div class="veille-card hologram" data-aos="fade-up" data-aos-delay="200">
-                <div class="veille-icon">
-                    <i class="fas fa-robot"></i>
-                </div>
-                <div class="veille-content">
-                    <h3>Intelligence Artificielle</h3>
-                    <span class="veille-date">Mise à jour: Décembre 2024</span>
-                    <p>Suivi des avancées en IA générative, machine learning et leurs applications dans le développement
-                        web.</p>
-                    <div class="veille-tags">
-                        <span class="tag">GPT-4</span>
-                        <span class="tag">TensorFlow</span>
-                        <span class="tag">AutoML</span>
-                    </div>
-                    <a href="#" class="btn btn-small">Voir les ressources</a>
-                </div>
-                <div class="hologram-light"></div>
-                <div class="hologram-grid"></div>
-            </div>
+  </div>
+</section>
 
-            <!-- Carte Veille 2 -->
-            <div class="veille-card hologram" data-aos="fade-up" data-aos-delay="300">
-                <div class="veille-icon">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                <div class="veille-content">
-                    <h3>Cybersécurité</h3>
-                    <span class="veille-date">Mise à jour: Novembre 2024</span>
-                    <p>Veille sur les nouvelles vulnérabilités, méthodes de protection et bonnes pratiques en sécurité
-                        web.</p>
-                    <div class="veille-tags">
-                        <span class="tag">OWASP</span>
-                        <span class="tag">Zero Trust</span>
-                        <span class="tag">Cryptographie</span>
-                    </div>
-                    <a href="#" class="btn btn-small">Voir les ressources</a>
-                </div>
-                <div class="hologram-light"></div>
-                <div class="hologram-grid"></div>
-            </div>
+<!-- ═══ VEILLE TECHNOLOGIQUE ═══ -->
+<section id="veille" class="section">
+  <div class="section-header reveal">
+    <div class="section-label" data-fr="06 — Veille technologique" data-en="06 — Tech Watch">06 — Veille technologique</div>
+    <h2 class="section-title" data-fr="IA & Développement." data-en="AI & Development.">IA & Développement.</h2>
+  </div>
+  <div class="veille-grid">
+    <div class="veille-main reveal">
+      <div class="veille-problematique">
+        <p data-fr="« Comment l'intégration croissante des outils de l'intelligence artificielle du développeur informatique a-t-elle des répercussions sur le travail et les éditeurs de logiciels ? »" data-en="&ldquo;How does the growing integration of AI tools in software development impact the work of developers and software publishers?&rdquo;">« Comment l'intégration croissante des outils de l'intelligence artificielle du développeur informatique a-t-elle des répercussions sur le travail et les éditeurs de logiciels ? »</p>
+      </div>
+      <h3 data-fr="Ma démarche" data-en="My approach">Ma démarche</h3>
+      <p data-fr="J'effectue une veille technologique régulière sur l'impact de l'intelligence artificielle dans le métier de développeur. Je m'appuie sur des sources variées — réseaux sociaux, newsletters, flux RSS via Feedly, forums Reddit et vidéos YouTube — pour suivre les évolutions rapides de ce domaine." data-en="I conduct regular technology monitoring on AI's impact in software development. I rely on diverse sources — social media, newsletters, RSS feeds via Feedly, Reddit forums, and YouTube — to track rapid changes in the field.">J'effectue une veille technologique régulière sur l'impact de l'intelligence artificielle dans le métier de développeur. Je m'appuie sur des sources variées — réseaux sociaux, newsletters, flux RSS via Feedly, forums Reddit et vidéos YouTube — pour suivre les évolutions rapides de ce domaine.</p>
+      <h3 data-fr="Mon analyse" data-en="My analysis">Mon analyse</h3>
+      <p data-fr="L'IA ne remplacera pas les développeurs, mais elle transforme profondément nos méthodes de travail. Elle permet d'automatiser des tâches répétitives et d'accélérer le développement. Cependant, elle soulève des questions importantes : les entreprises pourraient être tentées de réduire le recrutement de profils juniors en s'appuyant davantage sur ces outils, ce qui impacterait l'insertion professionnelle des nouveaux développeurs." data-en="AI won't replace developers, but it is profoundly transforming our workflows. It automates repetitive tasks and accelerates development. However, it raises important questions: companies may be tempted to reduce junior hiring by relying more on these tools, which could impact career entry for new developers.">L'IA ne remplacera pas les développeurs, mais elle transforme profondément nos méthodes de travail. Elle permet d'automatiser des tâches répétitives et d'accélérer le développement. Cependant, elle soulève des questions importantes : les entreprises pourraient être tentées de réduire le recrutement de profils juniors en s'appuyant davantage sur ces outils, ce qui impacterait l'insertion professionnelle des nouveaux développeurs.</p>
 
-            <!-- Carte Veille 3 -->
-            <div class="veille-card hologram" data-aos="fade-up" data-aos-delay="400">
-                <div class="veille-icon">
-                    <i class="fas fa-cloud"></i>
-                </div>
-                <div class="veille-content">
-                    <h3>Cloud Computing</h3>
-                    <span class="veille-date">Mise à jour: Octobre 2024</span>
-                    <p>Surveillance des évolutions des plateformes cloud, serverless et architectures microservices.</p>
-                    <div class="veille-tags">
-                        <span class="tag">AWS</span>
-                        <span class="tag">Kubernetes</span>
-                        <span class="tag">Serverless</span>
-                    </div>
-                    <a href="#" class="btn btn-small">Voir les ressources</a>
-                </div>
-                <div class="hologram-light"></div>
-                <div class="hologram-grid"></div>
-            </div>
+      <h3 data-fr="Mes sources" data-en="My sources">Mes sources</h3>
+      <div class="veille-tools">
+        <div class="veille-tool">
+          <div class="veille-tool-icon"><i class="fas fa-rss"></i></div>
+          <div><div class="veille-tool-name">Feedly</div><div class="veille-tool-desc" data-fr="Agrégateur RSS — centralisation de mes sources" data-en="RSS aggregator — centralizing my sources">Agrégateur RSS — centralisation de mes sources</div></div>
         </div>
-
-        <!-- Timeline des veilles -->
-        <div class="veille-timeline" data-aos="fade-up" data-aos-delay="500">
-            <h3>Timeline de ma veille</h3>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-date">2024</div>
-                    <div class="timeline-content">
-                        <h4>IA Générative</h4>
-                        <p>Explosion des outils IA pour le développement</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">2023</div>
-                    <div class="timeline-content">
-                        <h4>Web3 & Blockchain</h4>
-                        <p>Étude des applications décentralisées</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">2022</div>
-                    <div class="timeline-content">
-                        <h4>JAMstack</h4>
-                        <p>Adoption des architectures modernes</p>
-                    </div>
-                </div>
-            </div>
+        <div class="veille-tool">
+          <div class="veille-tool-icon"><i class="fab fa-reddit"></i></div>
+          <div><div class="veille-tool-name">Reddit</div><div class="veille-tool-desc" data-fr="Forums r/programming, r/webdev, r/artificial" data-en="Forums r/programming, r/webdev, r/artificial">Forums r/programming, r/webdev, r/artificial</div></div>
         </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="section-header" data-aos="fade-up">
-            <h2>Me <span>Contacter</span></h2>
-            <p>Travaillons ensemble</p>
+        <div class="veille-tool">
+          <div class="veille-tool-icon"><i class="fab fa-youtube"></i></div>
+          <div><div class="veille-tool-name">YouTube</div><div class="veille-tool-desc" data-fr="Vidéos tech, tutoriels et analyses" data-en="Tech videos, tutorials, and analysis">Vidéos tech, tutoriels et analyses</div></div>
         </div>
-        <form class="contact-form" data-aos="fade-up" data-aos-delay="200">
-            <div class="form-group">
-                <input type="text" id="name" required>
-                <label for="name">Votre Nom</label>
-            </div>
-            <div class="form-group">
-                <input type="email" id="email" required>
-                <label for="email">Votre Email</label>
-            </div>
-            <div class="form-group">
-                <textarea id="message" required></textarea>
-                <label for="message">Votre Message</label>
-            </div>
-            <button type="submit" class="btn btn-primary">Envoyer</button>
-        </form>
-
-    </section>
-
-    <!-- Footer -->
-    <footer class="glass-footer">
-        <div class="footer-content">
-            <div class="footer-logo">MG</div>
-            <div class="footer-links">
-                <a href="#accueil">Accueil</a>
-                <a href="#projets">Projets</a>
-                <a href="#competences">Compétences</a>
-                <a href="#about">À Propos</a>
-                <a href="#veille">Veille</a>
-                <a href="#contact">Contact</a>
-            </div>
-            <div class="footer-social">
-                <a href="https://github.com/maxs-gld" target="_blank" rel="noopener noreferrer"><i
-                        class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/maxence-gaillard-182161328" target="_blank"
-                    rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
-            </div>
+        <div class="veille-tool">
+          <div class="veille-tool-icon"><i class="fas fa-envelope"></i></div>
+          <div><div class="veille-tool-name">Newsletters</div><div class="veille-tool-desc" data-fr="Newsletters tech et IA" data-en="Tech & AI newsletters">Newsletters tech et IA</div></div>
         </div>
-        <div class="footer-copyright">
-            &copy; <span id="year"></span> Gaillard Maxence. Tous droits réservés.
+      </div>
+    </div>
+    <div class="veille-sidebar reveal">
+      <h3 data-fr="Outils IA étudiés" data-en="AI Tools Studied">Outils IA étudiés</h3>
+      <div class="ai-tools">
+        <div class="ai-tool">
+          <div class="ai-tool-name">GitHub Copilot</div>
+          <div class="ai-tool-desc" data-fr="Autocomplétion intelligente de code intégrée aux IDE — transforme la vitesse d'écriture du code." data-en="AI-powered code autocomplete integrated into IDEs — transforms coding speed.">Autocomplétion intelligente de code intégrée aux IDE — transforme la vitesse d'écriture du code.</div>
         </div>
-    </footer>
+        <div class="ai-tool">
+          <div class="ai-tool-name">ChatGPT</div>
+          <div class="ai-tool-desc" data-fr="Assistant conversationnel polyvalent — debugging, génération de code, documentation, brainstorming." data-en="Versatile conversational assistant — debugging, code generation, documentation, brainstorming.">Assistant conversationnel polyvalent — debugging, génération de code, documentation, brainstorming.</div>
+        </div>
+        <div class="ai-tool">
+          <div class="ai-tool-name">Claude</div>
+          <div class="ai-tool-desc" data-fr="IA d'Anthropic — analyse de code, refactoring, rédaction technique et raisonnement avancé." data-en="Anthropic's AI — code analysis, refactoring, technical writing, and advanced reasoning.">IA d'Anthropic — analyse de code, refactoring, rédaction technique et raisonnement avancé.</div>
+        </div>
+        <div class="ai-tool">
+          <div class="ai-tool-name">DeepSeek</div>
+          <div class="ai-tool-desc" data-fr="Modèle open-source performant — alternative compétitive pour l'assistance au développement." data-en="High-performance open-source model — competitive alternative for development assistance.">Modèle open-source performant — alternative compétitive pour l'assistance au développement.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="script.js"></script>
+<!-- ═══ CONTACT ═══ -->
+<section id="contact" class="section">
+  <div class="reveal">
+    <div class="section-label" data-fr="07 — Contact" data-en="07 — Contact">07 — Contact</div>
+    <h2 class="contact-big">
+      <a href="mailto:maxence.gaillard.49@gmail.com" class="magnetic" data-fr="Travaillons<br>ensemble." data-en="Let's work<br>together.">Travaillons<br>ensemble.</a>
+    </h2>
+    <div class="contact-info">
+      <div class="contact-item"><i class="fas fa-envelope"></i> maxence.gaillard.49@gmail.com</div>
+      <div class="contact-item"><i class="fas fa-phone"></i> 07 69 38 76 87</div>
+      <div class="contact-item"><i class="fas fa-map-marker-alt"></i> <span data-fr="Angers / Cholet et alentours" data-en="Angers / Cholet area, France">Angers / Cholet et alentours</span></div>
+    </div>
+    <div class="contact-links">
+      <a href="https://www.linkedin.com/in/maxence-gaillard-182161328" target="_blank" class="contact-link magnetic" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://github.com/maxs-gld" target="_blank" class="contact-link magnetic" title="GitHub"><i class="fab fa-github"></i></a>
+      <a href="mailto:maxence.gaillard.49@gmail.com" class="contact-link magnetic" title="Email"><i class="fas fa-envelope"></i></a>
+    </div>
+    <div class="cv-download">
+      <a href="CV_Maxence_Gaillard_Alternance.pdf" download class="btn-primary magnetic" data-fr="<i class='fas fa-download'></i> Télécharger mon CV" data-en="<i class='fas fa-download'></i> Download my CV"><i class="fas fa-download"></i> Télécharger mon CV</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <span>© 2026 Maxence Gaillard</span>
+  <span data-fr="Conçu avec passion" data-en="Built with passion">Conçu avec passion</span>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════════════════ -->
+
+<script src="script.js"></script>
 </body>
-
 </html>
