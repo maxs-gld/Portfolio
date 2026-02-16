@@ -367,8 +367,9 @@ nav {
 .btn-secondary:hover { border-color: var(--fg); color: var(--fg); }
 
 .hero-scroll {
-  position: absolute; bottom: 2.5rem; left: 50%;
-  transform: translateX(-50%); z-index: 5;
+  margin-top: 2.5rem;
+  display: flex; flex-direction: column; align-items: center;
+  z-index: 5;
   animation: fadeIn 1s 3.8s both;
 }
 
