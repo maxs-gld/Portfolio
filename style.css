@@ -292,40 +292,35 @@ nav {
   font-weight: 700; line-height: 0.9;
   letter-spacing: -0.04em;
   margin-bottom: 1.5rem;
-  background: linear-gradient(
-    90deg,
-    var(--fg) 0%,
-    var(--accent) 25%,
-    var(--accent2) 50%,
-    var(--accent) 75%,
-    var(--fg) 100%
-  );
-  background-size: 200% 100%;
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: titleUp 1s cubic-bezier(0.16,1,0.3,1) 2.5s both,
-             heroGradient 4s ease-in-out infinite 3.5s;
-}
-
-@keyframes heroGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
 .hero-name .line { display: block; overflow: hidden; }
 
 .hero-name .line span {
   display: inline-block;
-  animation: titleUp 1s cubic-bezier(0.16,1,0.3,1) both;
+  background: linear-gradient(
+    90deg,
+    #e8e4dc 0%,
+    var(--accent) 20%,
+    var(--accent2) 40%,
+    var(--accent) 60%,
+    #e8e4dc 80%,
+    var(--accent2) 100%
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: titleUp 1s cubic-bezier(0.16,1,0.3,1) both,
+             heroGradient 5s ease-in-out infinite 3.5s;
 }
 
 .hero-name .line:nth-child(1) span { animation-delay: 2.5s; }
 .hero-name .line:nth-child(2) span { animation-delay: 2.7s; }
 
-.hero-name .accent-text {
-  -webkit-text-fill-color: transparent;
-  position: relative;
+@keyframes heroGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 @keyframes titleUp {
@@ -1518,9 +1513,9 @@ footer {
 [data-theme="light"] .nav-morph-overlay { background: var(--bg); }
 
 /* Hero name gradient in light */
-[data-theme="light"] .hero-name {
-  background: linear-gradient(90deg, var(--fg) 0%, var(--accent) 25%, var(--accent2) 50%, var(--accent) 75%, var(--fg) 100%);
-  background-size: 200% 100%;
+[data-theme="light"] .hero-name .line span {
+  background: linear-gradient(90deg, #1a1a2e 0%, var(--accent) 20%, var(--accent2) 40%, var(--accent) 60%, #1a1a2e 80%, var(--accent2) 100%);
+  background-size: 300% 100%;
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-clip: text;
 }
