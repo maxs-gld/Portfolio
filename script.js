@@ -201,6 +201,11 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
+// ══════ LOGO → SCROLL TO TOP ══════
+document.querySelector('.nav-logo').addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
 // ══════ LANGUAGE TOGGLE FR/EN ══════
 let currentLang = 'fr';
 const langBtn = document.getElementById('langToggle');
