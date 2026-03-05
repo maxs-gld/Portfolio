@@ -866,7 +866,7 @@ nav {
 .project-screenshot {
   width: 100%; height: 100%;
   object-fit: cover; border-radius: var(--radius-sm);
-  display: none; /* Change to block when adding screenshot */
+  display: block;
 }
 
 .project-num {
