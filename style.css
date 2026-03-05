@@ -763,6 +763,30 @@ nav {
   margin-top: 0.8rem;
 }
 
+.tl-upcoming {
+  border-left: 2px dashed rgba(var(--accent2-rgb), 0.4);
+  padding-left: 3rem;
+  opacity: 0.85;
+}
+
+.tl-dot-upcoming {
+  border-color: var(--accent2);
+  background: transparent !important;
+  box-shadow: 0 0 10px rgba(var(--accent2-rgb), 0.3);
+}
+
+.tl-badge-upcoming {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.2em;
+  padding: 0.25rem 0.7rem;
+  border-radius: 100px;
+  background: rgba(var(--accent2-rgb), 0.08);
+  border: 1px solid rgba(var(--accent2-rgb), 0.3);
+  color: var(--accent2);
+  margin-bottom: 0.6rem;
+}
+
 .tl-tag {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.55rem; padding: 0.25rem 0.6rem;
