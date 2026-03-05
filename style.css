@@ -930,6 +930,13 @@ nav {
   letter-spacing: 0.04em;
 }
 
+.project-links {
+  display: flex; flex-wrap: wrap; gap: 0.6rem;
+  margin-top: 1.2rem;
+}
+
+.project-links .btn-source { margin-top: 0; }
+
 .project-status {
   display: inline-flex; align-items: center; gap: 0.5rem;
   font-family: 'JetBrains Mono', monospace;
