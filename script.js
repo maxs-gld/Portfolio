@@ -120,7 +120,7 @@ document.querySelectorAll('.stat, .project, .skill-card').forEach(c => {
 });
 
 // ══════ TEXT SCRAMBLE ══════
-document.querySelectorAll('.project-name, .skill-card-name, .tl-title').forEach(el => {
+document.querySelectorAll('.skill-card-name, .tl-title').forEach(el => {
   const orig = el.textContent;
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%';
   let iv;
