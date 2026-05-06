@@ -300,12 +300,12 @@ nav {
   display: inline-block;
   background: linear-gradient(
     90deg,
-    #e8e4dc 0%,
-    var(--accent) 20%,
-    var(--accent2) 40%,
-    var(--accent) 60%,
-    #e8e4dc 80%,
-    var(--accent2) 100%
+    #e8e6e0 0%,
+    #ffffff 20%,
+    #c8eeff 42%,
+    #ffffff 62%,
+    #e8e6e0 82%,
+    #c8eeff 100%
   );
   background-size: 300% 100%;
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
