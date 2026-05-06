@@ -1151,6 +1151,12 @@ nav {
   margin-top: 2.5rem;
 }
 
+.section-cta {
+  display: flex;
+  justify-content: center;
+  padding: 4rem var(--pad);
+}
+
 /* ═══════════════════════════════════════════════════════
    FOOTER
    ═══════════════════════════════════════════════════════ */
